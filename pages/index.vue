@@ -4,7 +4,7 @@
       <h3 class="panel-title">
         Categories
       </h3>
-      <div class="cat-grp">
+      <div class="cat-list">
         <a class="cat active" href="#">Bread</a>
         <a class="cat" href="#">Candies</a>
         <a class="cat" href="#">Cakes</a>
@@ -24,9 +24,38 @@
       </form>
     </div>
     <div class="right-panel">
-      <h3 class="panel-title">
-        Product Listing
-      </h3>
+      <div class="clearfix">
+        <h3 class="panel-title">
+          Product Listing
+        </h3>
+        <a href="#" class="new-product btn">
+          Add New Product
+        </a>
+      </div>
+      <div class="product-list">
+        <div class="item">
+          <img src="https://via.placeholder.com/321x200">
+          <div class="rows">
+            <div class="row clearfix">
+              <div class="name">
+                Pandesal
+              </div>
+              <div class="price">
+                P2.00
+              </div>
+            </div>
+            <div class="row clearfix">
+              <div class="stock">
+                In stock: 60
+              </div>
+            </div>
+            <div class="row btn-grp">
+              <a href="#" class="btn">Edit</a>
+              <a href="#" class="btn">Delete</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
