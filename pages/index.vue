@@ -5,14 +5,14 @@
         Categories
       </h3>
       <div class="cat-list">
-        <a class="cat active" href="#">Bread</a>
-        <a class="cat" href="#">Candies</a>
-        <a class="cat" href="#">Cakes</a>
-        <a class="cat" href="#">Cookies</a>
-        <a class="cat" href="#">Drinks</a>
-        <a class="cat" href="#">Ice Cream</a>
-        <a class="cat" href="#">Processed Meat</a>
-        <a class="cat" href="#">Others</a>
+        <a
+          v-for="cat in catList"
+          :key="cat"
+          :class="{ active: cat === activeCat }"
+          class="cat"
+          href="#">
+          {{ cat }}
+        </a>
       </div>
       <form action="#">
         <div class="new-cat input-wrapper">
@@ -59,6 +59,13 @@
     </div>
   </div>
 </template>
+
+<script>
+import { mapState } from 'vuex';
+export default {
+  computed: mapState(['activeCat', 'catList'])
+};
+</script>
 
 <style lang="sass" scoped>
 @import '~/assets/css/fontawesome-free-5.13.0-web/css/all.min.css'

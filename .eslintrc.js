@@ -14,6 +14,7 @@ module.exports = {
   // add your custom rules here
   rules: {
     'nuxt/no-cjs-in-config': 'off',
+    'vue/html-closing-bracket-newline': 'off',
     'semi': ['error', 'always']
   }
 }
