@@ -33,28 +33,13 @@
         </a>
       </div>
       <div class="product-list">
-        <div class="item">
-          <img src="https://via.placeholder.com/321x200">
-          <div class="rows">
-            <div class="row clearfix">
-              <div class="name">
-                Pandesal
-              </div>
-              <div class="price">
-                P2.00
-              </div>
-            </div>
-            <div class="row clearfix">
-              <div class="stock">
-                In stock: 60
-              </div>
-            </div>
-            <div class="row btn-grp">
-              <a href="#" class="btn">Edit</a>
-              <a href="#" class="btn">Delete</a>
-            </div>
-          </div>
-        </div>
+        <ProductItem
+          v-for="item in productList"
+          :key="item.id"
+          :img="item.img"
+          :name="item.name"
+          :price="item.price"
+          :stock="item.stock" />
       </div>
     </div>
   </div>
@@ -62,8 +47,10 @@
 
 <script>
 import { mapState } from 'vuex';
+import ProductItem from '~/components/ProductItem';
 export default {
-  computed: mapState(['activeCat', 'catList'])
+  components: { ProductItem },
+  computed: mapState(['activeCat', 'catList', 'productList'])
 };
 </script>
 
