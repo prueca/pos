@@ -10,7 +10,8 @@
           :key="cat"
           :class="{ active: cat === activeCat }"
           class="cat"
-          href="#">
+          href="#"
+          @click.prevent="setActiveCat(cat)">
           {{ cat }}
         </a>
       </div>
@@ -46,11 +47,12 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 import ProductItem from '~/components/ProductItem';
 export default {
   components: { ProductItem },
-  computed: mapState(['activeCat', 'catList', 'productList'])
+  computed: mapState(['activeCat', 'catList', 'productList']),
+  methods: mapMutations(['setActiveCat'])
 };
 </script>
 

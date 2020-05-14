@@ -16,6 +16,7 @@ module.exports = {
     'nuxt/no-cjs-in-config': 'off',
     'vue/html-closing-bracket-newline': 'off',
     'vue/require-prop-types': 'off',
+    'space-before-function-paren': 'off',
     'semi': ['error', 'always']
   }
 }

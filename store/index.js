@@ -20,3 +20,9 @@ export const state = () => ({
     }
   ]
 });
+
+export const mutations = {
+  setActiveCat(state, cat) {
+    state.activeCat = cat;
+  }
+};
