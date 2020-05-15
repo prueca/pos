@@ -9,10 +9,7 @@ html, body
 a
   color: $font-color
   text-decoration: none
-
-  &:active
-    border-top: thick solid #aaa
-    border-bottom: thick solid #ccc
+  outline: none
 
 .clearfix:after
   content: ''
@@ -37,6 +34,10 @@ a
   color: $font-color
   cursor: pointer
   outline: none
+
+  &:active
+    border-top: thick solid #aaa
+    border-bottom: thick solid #ccc
 
 .input-wrapper
   display: flex
