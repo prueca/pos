@@ -5,11 +5,13 @@ import {
   DB_PASS,
   DB_HOST,
   DB_PORT,
-  DB_DIALECT
+  DB_DIALECT,
+  DB_SYNC
 } from '../configs/database';
 
 import schema from './schema';
 import Product from './Product';
+import Stock from './Stock';
 
 export const conn = new Sequelize(
   DB_NAME, DB_USER, DB_PASS, {
@@ -19,7 +21,8 @@ export const conn = new Sequelize(
   });
 
 const models = {
-  Product: Product.init(conn, schema.product)
+  Product: Product.init(conn, schema.product),
+  Stock: Stock.init(conn, schema.stock)
 };
 
 Object.values(models)
@@ -27,7 +30,7 @@ Object.values(models)
   .forEach(model => model.associate(models));
 
 // eslint-disable-next-line eqeqeq
-if (process.env.DB_SYNC == 1) {
+if (DB_SYNC == 1) {
   conn.sync({ force: true });
 }
 
