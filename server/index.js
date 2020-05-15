@@ -2,8 +2,11 @@ import express from 'express';
 import { ready } from 'consola';
 import { Nuxt, Builder } from 'nuxt';
 import config from '../nuxt.config.js';
+import apiRouter from './routes/api';
 
 const app = express();
+
+app.use('/api', apiRouter);
 
 // Import and Set Nuxt.js options
 
