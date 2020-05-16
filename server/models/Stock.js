@@ -23,6 +23,5 @@ export default class Product extends BaseModel {
    */
   static async updateStock(productId, stock) {
     await this.create({ productId, stock });
-    return true;
   }
 }

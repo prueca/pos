@@ -1,4 +1,5 @@
 import models from '../models';
+import { errHandler } from '../library/helper';
 
 export default class IndexController {
   /**
@@ -31,12 +32,7 @@ export default class IndexController {
       const result = await this.stock.updateStock(productId, req.body.stock);
       res.json({ result });
     } catch (err) {
-      res.json({
-        error: {
-          name: err.name,
-          message: err.message
-        }
-      });
+      res.error(err);
     }
   }
 }
