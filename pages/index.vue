@@ -54,9 +54,11 @@ import ProductItem from '~/components/ProductItem';
 export default {
   components: { ProductItem },
   computed: mapState(['activeCat', 'catList', 'productList']),
-  mounted() {
+  created() {
     this.$axios.$get(urls.GET_PRODUCTS)
-      .then(data => console.log(data));
+      .then((data) => {
+
+      });
   },
   methods: mapMutations(['setActiveCat'])
 };

@@ -1,4 +1,5 @@
 import errors from '../configs/errors';
+import { groupBy } from '../library/helper';
 import BaseModel from './BaseModel';
 import models from './index';
 
@@ -34,7 +35,7 @@ export default class Product extends BaseModel {
    * Get all products
    */
   static async getProducts() {
-    const products = await this.findAll({
+    let products = await this.findAll({
       attributes: [
         'productId',
         'name',
@@ -49,7 +50,7 @@ export default class Product extends BaseModel {
       }
     });
 
-    return products.map((product) => {
+    products = products.map((product) => {
       const item = product.toJSON();
       let stock = 0;
 
@@ -61,5 +62,7 @@ export default class Product extends BaseModel {
       item.stock = stock;
       return item;
     });
+
+    return groupBy(products, 'category');
   }
 }
