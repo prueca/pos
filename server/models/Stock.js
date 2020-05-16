@@ -1,3 +1,4 @@
+import errors from '../configs/errors';
 import BaseModel from './BaseModel';
 
 export default class Product extends BaseModel {
@@ -22,6 +23,14 @@ export default class Product extends BaseModel {
    *  @param {Number} stock
    */
   static async updateStock(productId, stock) {
+    if (productId === null || productId === undefined || stock === null || stock === undefined) {
+      throw errors.MISSING_PARAM;
+    }
+
+    if (typeof productId !== 'number' || typeof stock !== 'number') {
+      throw errors.INVALID_PARAM;
+    }
+
     await this.create({ productId, stock });
   }
 }

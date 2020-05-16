@@ -1,24 +1,31 @@
 import HttpStatus from 'http-status-codes';
 
-export const sqlErrors = [
-  'SequelizeConnectionRefusedError',
-  'SequelizeUniqueConstraintError'
-];
-
 export default {
   UNKNOWN_ERROR: {
     code: '000',
     message: 'Unkown error',
-    status: HttpStatus.INTERNAL_SERVER_ERROR
+    status: HttpStatus.CON
   },
-  SQL_ERROR: {
+  CONNECTION_REFUSED: {
     code: '001',
-    message: 'SQL Error',
-    status: HttpStatus.INTERNAL_SERVER_ERROR
+    message: 'Database connection refused',
+    status: HttpStatus.INTERNAL_SERVER_ERROR,
+    name: 'SequelizeConnectionRefusedError'
   },
   MISSING_PARAM: {
     code: '002',
     message: 'Missing parameter',
     status: HttpStatus.UNPROCESSABLE_ENTITY
+  },
+  INVALID_PARAM: {
+    code: '002',
+    message: 'Invalid parameter',
+    status: HttpStatus.UNPROCESSABLE_ENTITY
+  },
+  UNIQUE_CONSTRAINT: {
+    code: '003',
+    message: 'Data conflict',
+    status: HttpStatus.CONFLICT,
+    name: 'SequelizeUniqueConstraintError'
   }
 };

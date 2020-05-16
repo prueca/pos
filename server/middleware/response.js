@@ -1,13 +1,16 @@
-import errors, { sqlErrors } from '../configs/errors';
+import errors from '../configs/errors';
 
 export default (req, res, next) => {
   Object.assign(res, {
     error(err) {
       let e = err;
 
-      if (e.name && sqlErrors.includes(e.name)) {
-        e = errors.SQL_ERROR;
-      }
+      Object.values(errors).some((elem) => {
+        if (err.name && err.name === elem.name) {
+          e = elem;
+          return true;
+        }
+      });
 
       this.status(e.status || 500).json({
         error: {

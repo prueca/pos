@@ -1,17 +1,18 @@
 import Sequelize from 'sequelize';
-import config, { FORCE_SYNC } from '../configs/database';
+import config from '../configs/database';
 import schema from './schema';
 import Product from './Product';
 import Stock from './Stock';
 
 export const conn = new Sequelize(
-  config.DB_NAME,
-  config.DB_USER,
-  config.DB_PASS,
+  config.DATABASE,
+  config.USER,
+  config.PASS,
   {
-    host: config.DB_HOST,
-    port: config.DB_PORT,
-    dialect: config.DB_DIALECT
+    host: config.HOST,
+    port: config.PORT,
+    dialect: config.DIALECT,
+    logging: config.LOGGING
   }
 );
 
@@ -25,6 +26,6 @@ Object.values(models)
   .forEach(model => model.associate(models));
 
 Object.values(models)
-  .forEach(model => model.sync({ force: FORCE_SYNC }));
+  .forEach(model => model.sync({ force: config.FORCE_SYNC }));
 
 export default models;
