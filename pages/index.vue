@@ -48,10 +48,16 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex';
+import urls from '~/configs/urls';
 import ProductItem from '~/components/ProductItem';
+
 export default {
   components: { ProductItem },
   computed: mapState(['activeCat', 'catList', 'productList']),
+  mounted() {
+    this.$axios.$get(urls.GET_PRODUCTS)
+      .then(data => console.log(data));
+  },
   methods: mapMutations(['setActiveCat'])
 };
 </script>

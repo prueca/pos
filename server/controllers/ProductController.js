@@ -34,4 +34,19 @@ export default class IndexController {
       res.error(err);
     }
   }
+
+  /**
+   * Get products
+   *
+   * @param {Object} req
+   * @param {Object} res
+   */
+  async getProducts(req, res) {
+    try {
+      const products = await this.product.getProducts();
+      res.json({ products });
+    } catch (err) {
+      res.error(err);
+    }
+  }
 }

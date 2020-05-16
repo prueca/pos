@@ -1,5 +1,7 @@
 export const state = () => ({
-  activeCat: 'Bread',
+  get activeCat() {
+    return this.catList[0] || null;
+  },
   catList: [
     'Bread',
     'Candies',

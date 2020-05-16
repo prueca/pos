@@ -9,10 +9,7 @@ export default class Product extends BaseModel {
    */
   static associate(models) {
     this.belongsTo(models.Product, {
-      foreignKey: {
-        name: 'productId',
-        allowNull: false
-      }
+      foreignKey: 'product_id'
     });
   }
 
@@ -31,6 +28,6 @@ export default class Product extends BaseModel {
       throw errors.INVALID_PARAM;
     }
 
-    await this.create({ productId, stock });
+    await this.create({ product_id: productId, stock });
   }
 }
