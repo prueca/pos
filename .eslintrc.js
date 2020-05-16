@@ -17,6 +17,7 @@ module.exports = {
     'vue/html-closing-bracket-newline': 'off',
     'vue/require-prop-types': 'off',
     'space-before-function-paren': 'off',
+    'no-console': 'off',
     'semi': ['error', 'always']
   }
 }

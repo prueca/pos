@@ -6,10 +6,12 @@ import apiRouter from './routes/api';
 
 const app = express();
 
+app.use(express.json());
+
+// routes
 app.use('/api', apiRouter);
 
 // Import and Set Nuxt.js options
-
 config.dev = process.env.NODE_ENV !== 'production';
 
 async function start () {

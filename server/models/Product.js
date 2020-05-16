@@ -13,7 +13,8 @@ export default class Product extends BaseModel {
     });
   }
 
-  static newProduct() {
-    return true;
+  static async newProduct(params) {
+    const product = await this.create(params);
+    return product.productId;
   }
 }

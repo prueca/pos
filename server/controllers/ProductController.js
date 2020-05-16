@@ -6,6 +6,7 @@ export default class IndexController {
    */
   constructor() {
     this.product = models.Product;
+    this.stock = models.Stock;
   }
 
   /**
@@ -24,8 +25,18 @@ export default class IndexController {
    * @param {Object} req
    * @param {Object} res
    */
-  newProduct(req, res) {
-    const result = this.product.newProduct();
-    res.json({ productCreated: result });
+  async newProduct(req, res) {
+    try {
+      const productId = await this.product.newProduct(req.body);
+      const result = await this.stock.updateStock(productId, req.body.stock);
+      res.json({ result });
+    } catch (err) {
+      res.json({
+        error: {
+          name: err.name,
+          message: err.message
+        }
+      });
+    }
   }
 }

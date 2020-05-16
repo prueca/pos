@@ -14,4 +14,15 @@ export default class Product extends BaseModel {
       }
     });
   }
+
+  /**
+   * Update product stock
+   *
+   *  @param {Number} productId
+   *  @param {Number} stock
+   */
+  static async updateStock(productId, stock) {
+    await this.create({ productId, stock });
+    return true;
+  }
 }
