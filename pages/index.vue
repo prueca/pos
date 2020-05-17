@@ -1,38 +1,46 @@
 <template>
-  <div class="container">
-    <div class="left-panel">
-      <h3 class="panel-title">
-        Categories
-      </h3>
-      <div class="cat-list">
-        <a
-          v-for="cat in catList"
-          :key="cat"
-          :class="{ active: cat === activeCat }"
-          class="cat"
-          href="#"
-          @click.prevent="setActiveCat(cat)">
-          {{ cat }}
-        </a>
-      </div>
-    </div>
-    <div class="right-panel">
-      <div class="clearfix">
+  <div>
+    <ProductForm
+      :class="{ hide: !showProductForm }"
+      @toggleProductForm="toggleProductForm" />
+    <div class="container">
+      <div class="left-panel">
         <h3 class="panel-title">
-          Product Listing
+          Categories
         </h3>
-        <a href="#" class="new-product btn">
-          Add New Product
-        </a>
+        <div class="cat-list">
+          <a
+            v-for="cat in catList"
+            :key="cat"
+            :class="{ active: cat === activeCat }"
+            class="cat"
+            href="#"
+            @click.prevent="setActiveCat(cat)">
+            {{ cat }}
+          </a>
+        </div>
       </div>
-      <div class="product-list">
-        <ProductItem
-          v-for="item in productList[activeCat]"
-          :key="item.id"
-          :image="item.image"
-          :name="item.name"
-          :price="item.price"
-          :stock="item.stock" />
+      <div class="right-panel">
+        <div class="clearfix">
+          <h3 class="panel-title">
+            Product Listing
+          </h3>
+          <a
+            href="#"
+            class="new-product btn"
+            @click.prevent="toggleProductForm">
+            Add New Product
+          </a>
+        </div>
+        <div class="product-list">
+          <ProductItem
+            v-for="item in productList[activeCat]"
+            :key="item.id"
+            :image="item.image"
+            :name="item.name"
+            :price="item.price"
+            :stock="item.stock" />
+        </div>
       </div>
     </div>
   </div>
@@ -42,12 +50,14 @@
 import { mapState, mapMutations } from 'vuex';
 import urls from '~/configs/urls';
 import ProductItem from '~/components/ProductItem';
+import ProductForm from '~/components/ProductForm';
 
 export default {
-  components: { ProductItem },
+  components: { ProductItem, ProductForm },
   data: () => ({
     activeCat: null,
-    catList: null
+    catList: null,
+    showProductForm: false
   }),
   computed: mapState(['productList']),
   created() {
@@ -67,6 +77,9 @@ export default {
     },
     setCatList(catList) {
       this.catList = catList;
+    },
+    toggleProductForm() {
+      this.showProductForm = !this.showProductForm;
     }
   }
 };
