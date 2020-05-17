@@ -1,6 +1,6 @@
 <template>
   <div class="item">
-    <img :src="img">
+    <img :src="image">
     <div class="rows">
       <div class="row clearfix">
         <div class="name">
@@ -26,7 +26,7 @@
 <script>
 export default {
   name: 'ProductItem',
-  props: ['img', 'name', 'price', 'stock']
+  props: ['image', 'name', 'price', 'stock']
 };
 </script>
 

@@ -35,9 +35,9 @@
       </div>
       <div class="product-list">
         <ProductItem
-          v-for="item in productList"
+          v-for="item in productList[activeCat]"
           :key="item.id"
-          :img="item.img"
+          :image="item.image"
           :name="item.name"
           :price="item.price"
           :stock="item.stock" />
@@ -53,14 +53,30 @@ import ProductItem from '~/components/ProductItem';
 
 export default {
   components: { ProductItem },
-  computed: mapState(['activeCat', 'catList', 'productList']),
+  data: () => ({
+    activeCat: null,
+    catList: null
+  }),
+  computed: mapState(['productList']),
   created() {
     this.$axios.$get(urls.GET_PRODUCTS)
       .then((data) => {
-
+        this.setProductList(data.products);
+        const catList = Object.keys(this.productList);
+        this.setCatList(catList);
+        const activeCat = this.catList[0] || null;
+        this.setActiveCat(activeCat);
       });
   },
-  methods: mapMutations(['setActiveCat'])
+  methods: {
+    ...mapMutations(['setProductList']),
+    setActiveCat(cat) {
+      this.activeCat = cat;
+    },
+    setCatList(catList) {
+      this.catList = catList;
+    }
+  }
 };
 </script>
 
