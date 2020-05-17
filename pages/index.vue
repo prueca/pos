@@ -15,14 +15,6 @@
           {{ cat }}
         </a>
       </div>
-      <form action="#">
-        <div class="new-cat input-wrapper">
-          <input type="text" placeholder="New category">
-          <button type="submit">
-            <span class="fas fa-fw fa-plus" />
-          </button>
-        </div>
-      </form>
     </div>
     <div class="right-panel">
       <div class="clearfix">
