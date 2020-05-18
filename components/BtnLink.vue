@@ -1,5 +1,5 @@
 <template>
-  <a href="#" class="btn-link" @click.prevent="$emit('onClick')">
+  <a href="#" class="btn-link" @click.prevent="$emit('onclick')">
     {{ text }}
   </a>
 </template>

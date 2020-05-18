@@ -28,7 +28,7 @@
           <BtnLink
             text="Add New Product"
             class="new-product"
-            @onClick="toggleProductForm" />
+            @onclick="toggleProductForm" />
         </div>
         <div class="product-list">
           <ProductItem

@@ -1,0 +1,43 @@
+@import './vars'
+
+.file-input
+  display: flex
+  padding: 8px 12px
+  padding-right: 0
+  border: thin solid #ccc
+
+  .icon
+    display: inline-block
+    margin-right: 12px
+    padding-top: 4px
+    padding-right: 12px
+    border-right: thin solid #ccc
+
+  .file-name
+    width: 100%
+    margin-right: 12px
+    font-size: 0.85em
+
+    &:disabled
+      background: none
+
+  .browse
+    display: inline-block
+    margin-left: 12px
+    padding: 0 12px
+    background: none
+    border: none
+    border-left: thin solid #ccc
+    font-size: 0.9em
+    color: $font-color
+    outline: none
+    cursor: pointer
+    position: relative
+
+    input[type="file"]
+      position: absolute
+      top: 0
+      right: 0
+      bottom: 0
+      left: 0
+      opacity: 0

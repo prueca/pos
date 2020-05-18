@@ -32,6 +32,15 @@
             v-if="showCatTxtInput"
             icon="fas fa-fw fa-tag"
             placeholder="Enter category" />
+          <FileInput
+            icon="fas fa-fw fa-image" />
+        </div>
+        <div class="footer clearfix">
+          <BtnLink
+            text="Submit" />
+          <BtnLink
+            text="Close"
+            @onclick="$emit('toggleProductForm')" />
         </div>
       </form>
     </div>
@@ -42,10 +51,12 @@
 import { mapState } from 'vuex';
 import TextInput from '~/components/TextInput';
 import Dropdown from '~/components/Dropdown';
+import FileInput from '~/components/FileInput';
+import BtnLink from '~/components/BtnLink';
 
 export default {
   name: 'ProductForm',
-  components: { TextInput, Dropdown },
+  components: { TextInput, Dropdown, FileInput, BtnLink },
   data: () => ({
     showCatTxtInput: false
   }),
