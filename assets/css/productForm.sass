@@ -45,51 +45,13 @@
   .inline-inputs
     display: flex
 
-    .input-wrapper:first-of-type
-      margin-right: 8px
-
-    .input-wrapper:last-of-type
-      margin-left: 8px
-      margin-bottom: 32px !important
-
-  .input-wrapper
-    width: 100%
+  .text-input, .dropdown
     margin-bottom: 32px
-    box-sizing: border-box
 
-    &:last-of-type
-      margin-bottom: 0
+  .item-name
+    width: 70%
+    margin-right: 8px
 
-    &.partial-70
-      width: 70%
-
-    &.partial-30
-      width: 30%
-
-    &.hide
-      display: none
-
-    input[type="text"]:disabled
-      background: none
-
-    .browse
-      position: relative
-
-      input[type="file"]
-        position: absolute
-        top: 0
-        right: 0
-        bottom: 0
-        left: 0
-        opacity: 0
-
-.footer
-  padding: 16px
-  border-top: thin solid #ccc
-
-  button
-    width: 85px
-    display: inline-block
-    margin-left: 12px
-    padding: 8px
-    float: right
+  .item-price
+    width: 30%
+    margin-left: 8px

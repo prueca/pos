@@ -16,16 +16,18 @@
         </div>
       </div>
       <div class="row btn-grp">
-        <a href="#" class="btn">Edit</a>
-        <a href="#" class="btn">Delete</a>
+        <BtnLink text="Edit" class="btn" />
+        <BtnLink text="Delete" class="btn" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import BtnLink from '~/components/BtnLink';
 export default {
   name: 'ProductItem',
+  components: { BtnLink },
   props: ['image', 'name', 'price', 'stock']
 };
 </script>

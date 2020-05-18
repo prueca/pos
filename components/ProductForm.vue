@@ -15,53 +15,23 @@
         </div>
         <div class="content">
           <div class="inline-inputs">
-            <div class="input-wrapper partial-70">
-              <span class="icon fas fa-fw fa-file-signature" />
-              <input type="text" placeholder="Enter product name">
-            </div>
-            <div class="input-wrapper partial-30">
-              <span class="icon fas fa-fw fa-barcode" />
-              <input type="text" placeholder="Enter price">
-            </div>
+            <TextInput
+              class="item-name"
+              icon="fas fa-fw fa-file-signature"
+              placeholder="Enter product name" />
+            <TextInput
+              class="item-price"
+              icon="fas fa-fw fa-barcode"
+              placeholder="Enter price" />
           </div>
-          <div class="input-wrapper">
-            <span class="icon fas fa-fw fa-tag" />
-            <select>
-              <option selected disabled>
-                Select category
-              </option>
-              <option>
-                Enter new category
-              </option>
-            </select>
-          </div>
-          <div
-            class="input-wrapper"
-            :class="{ hide: !showCatInput }">
-            <span class="icon fas fa-fw fa-tag" />
-            <input type="text" placeholder="Enter category">
-          </div>
-          <div class="input-wrapper">
-            <span class="icon fas fa-fw fa-image" />
-            <input type="text" placeholder="Default image selected" disabled>
-            <button class="browse" type="button">
-              <span>Browse</span>
-              <input class="opaque" type="file">
-            </button>
-          </div>
-        </div>
-        <div class="footer">
-          <div class="btn-grp clearfix">
-            <button class="btn" type="submit">
-              Submit
-            </button>
-            <button
-              class="btn"
-              type="button"
-              @click.prevent="$emit('toggleProductForm')">
-              Close
-            </button>
-          </div>
+          <Dropdown
+            icon="fas fa-fw fa-tag"
+            default-opt="Select category"
+            :options="catList" />
+          <TextInput
+            v-if="showCatTxtInput"
+            icon="fas fa-fw fa-tag"
+            placeholder="Enter category" />
         </div>
       </form>
     </div>
@@ -69,14 +39,21 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+import TextInput from '~/components/TextInput';
+import Dropdown from '~/components/Dropdown';
+
 export default {
   name: 'ProductForm',
+  components: { TextInput, Dropdown },
   data: () => ({
-    showCatInput: false
+    showCatTxtInput: false
   }),
-  methods: {
-    toggleCatInput() {
-      this.showCatInput = !this.showCatInput;
+  computed: {
+    ...mapState(['productList']),
+    catList() {
+      const list = Object.keys(this.productList);
+      return list.map(cat => ({ text: cat, value: cat }));
     }
   }
 };
