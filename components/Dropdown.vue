@@ -1,8 +1,8 @@
 <template>
   <div class="dropdown">
     <span class="icon" :class="icon" />
-    <select>
-      <option selected disabled>
+    <select v-model="val" @change="$emit('onchange', $event.target.value)">
+      <option :value="null" selected disabled>
         {{ defaultOpt }}
       </option>
       <option v-for="opt in options" :key="opt.value" :value="opt.value">
@@ -15,7 +15,13 @@
 <script>
 export default {
   name: 'Dropdown',
-  props: ['defaultOpt', 'options', 'icon']
+  props: ['value', 'defaultOpt', 'options', 'icon'],
+  computed: {
+    val: {
+      get() { return this.value; },
+      set(v) { this.$emit('input', v); }
+    }
+  }
 };
 </script>
 

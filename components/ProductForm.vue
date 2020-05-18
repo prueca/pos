@@ -25,9 +25,11 @@
               placeholder="Enter price" />
           </div>
           <Dropdown
+            v-model="form.category"
+            :options="catList"
             icon="fas fa-fw fa-tag"
             default-opt="Select category"
-            :options="catList" />
+            @onchange="setCategory" />
           <TextInput
             v-if="showCatTxtInput"
             icon="fas fa-fw fa-tag"
@@ -58,13 +60,31 @@ export default {
   name: 'ProductForm',
   components: { TextInput, Dropdown, FileInput, BtnLink },
   data: () => ({
-    showCatTxtInput: false
+    showCatTxtInput: false,
+    form: {
+      name: null,
+      price: null,
+      category: null
+    }
   }),
   computed: {
     ...mapState(['productList']),
     catList() {
       const list = Object.keys(this.productList);
+      list.push('New category');
       return list.map(cat => ({ text: cat, value: cat }));
+    }
+  },
+  methods: {
+    setCategory(cat) {
+      if (cat === 'New category') {
+        this.form.category = null;
+        this.showCatTxtInput = true;
+        return;
+      }
+
+      this.form.category = cat;
+      this.showCatTxtInput = false;
     }
   }
 };
