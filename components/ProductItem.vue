@@ -14,17 +14,17 @@
       </div>
     </div>
     <div class="row btn-grp">
-      <BtnLink text="Edit" class="btn" />
-      <BtnLink text="Delete" class="btn" />
+      <Btn text="Edit" />
+      <Btn text="Delete" />
     </div>
   </div>
 </template>
 
 <script>
-import BtnLink from '~/components/BtnLink';
+import Btn from '~/components/Btn';
 export default {
   name: 'ProductItem',
-  components: { BtnLink },
+  components: { Btn },
   props: ['image', 'name', 'price', 'stock']
 };
 </script>

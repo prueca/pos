@@ -1,7 +1,7 @@
 <template>
   <div id="product-form">
     <div class="content-wrapper">
-      <form>
+      <form @submit.prevent="onSubmit">
         <div class="header clearfix">
           <div class="title">
             Add New Item
@@ -32,16 +32,14 @@
             @onchange="setCategory" />
           <TextInput
             v-if="showCatTxtInput"
+            v-model="form.category"
             class="new-cat"
             icon="fas fa-fw fa-tag"
             placeholder="Enter category" />
         </div>
         <div class="footer clearfix">
-          <BtnLink
-            text="Submit" />
-          <BtnLink
-            text="Close"
-            @onclick="$emit('toggleProductForm')" />
+          <Btn text="Submit" type="submit" />
+          <Btn text="Close" @onclick="$emit('toggleProductForm')" />
         </div>
       </form>
     </div>
@@ -52,11 +50,11 @@
 import { mapState } from 'vuex';
 import TextInput from '~/components/TextInput';
 import Dropdown from '~/components/Dropdown';
-import BtnLink from '~/components/BtnLink';
+import Btn from '~/components/Btn';
 
 export default {
   name: 'ProductForm',
-  components: { TextInput, Dropdown, BtnLink },
+  components: { TextInput, Dropdown, Btn },
   data: () => ({
     showCatTxtInput: false,
     form: {
@@ -83,6 +81,9 @@ export default {
 
       this.form.category = cat;
       this.showCatTxtInput = false;
+    },
+    onSubmit() {
+      console.log(this.form);
     }
   }
 };

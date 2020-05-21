@@ -25,7 +25,7 @@
           <h3 class="panel-title">
             Product Listing
           </h3>
-          <BtnLink
+          <Btn
             text="Add New Product"
             class="new-product"
             @onclick="toggleProductForm" />
@@ -48,10 +48,10 @@ import { mapState, mapMutations } from 'vuex';
 import urls from '~/configs/urls';
 import ProductItem from '~/components/ProductItem';
 import ProductForm from '~/components/ProductForm';
-import BtnLink from '~/components/BtnLink';
+import Btn from '~/components/Btn';
 
 export default {
-  components: { ProductItem, ProductForm, BtnLink },
+  components: { ProductItem, ProductForm, Btn },
   data: () => ({
     activeCat: null,
     catList: null,
