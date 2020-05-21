@@ -24,7 +24,7 @@ export default class Product extends BaseModel {
       throw errors.MISSING_PARAM;
     }
 
-    if (typeof productId !== 'number' || typeof stock !== 'number') {
+    if (typeof productId !== 'number' || isNaN(stock)) {
       throw errors.INVALID_PARAM;
     }
 

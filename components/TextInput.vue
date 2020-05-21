@@ -1,7 +1,11 @@
 <template>
   <div class="text-input">
     <span class="icon" :class="icon" />
-    <input v-model="val" :type="type || 'text'" :placeholder="placeholder">
+    <input
+      v-model="val"
+      :type="type || 'text'"
+      :placeholder="placeholder"
+      @blur="$emit('onblur', $event)">
   </div>
 </template>
 

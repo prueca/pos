@@ -14,15 +14,23 @@
           </a>
         </div>
         <div class="content">
+          <TextInput
+            v-model="form.name"
+            class="item-name"
+            icon="fas fa-fw fa-file-signature"
+            placeholder="Enter product name" />
           <div class="inline-inputs">
             <TextInput
-              class="item-name"
-              icon="fas fa-fw fa-file-signature"
-              placeholder="Enter product name" />
-            <TextInput
+              v-model="form.price"
               class="item-price"
               icon="fas fa-fw fa-barcode"
-              placeholder="Enter price" />
+              placeholder="Enter price"
+              @onblur="formatPrice" />
+            <TextInput
+              v-model="form.stock"
+              class="item-stock"
+              icon="fas fa-fw fa-layer-group"
+              placeholder="Enter stock" />
           </div>
           <Dropdown
             v-model="form.category"
@@ -51,6 +59,7 @@ import { mapState } from 'vuex';
 import TextInput from '~/components/TextInput';
 import Dropdown from '~/components/Dropdown';
 import Btn from '~/components/Btn';
+import urls from '~/configs/urls';
 
 export default {
   name: 'ProductForm',
@@ -60,6 +69,7 @@ export default {
     form: {
       name: null,
       price: null,
+      stock: null,
       category: null
     }
   }),
@@ -82,8 +92,33 @@ export default {
       this.form.category = cat;
       this.showCatTxtInput = false;
     },
+    formatPrice(evt) {
+      let value = evt.target.value;
+
+      if (!isNaN(value) && !/^\d+\.\d{2}$/.test(value)) {
+        value = Number(value).toFixed(2);
+      } else if (isNaN(value)) {
+        value = '';
+      }
+
+      evt.target.value = value;
+    },
     onSubmit() {
-      console.log(this.form);
+      if (!this.form.name || !this.form.price || !this.form.stock || !this.form.category) {
+        return alert('Missing input');
+      }
+
+      if (isNaN(this.form.price)) {
+        return alert('Invalid price');
+      }
+
+      if (isNaN(this.form.stock)) {
+        return alert('Invalid stock');
+      }
+
+      this.$axios.$post(urls.NEW_PRODUCT, this.form)
+        .then(res => console.log(res))
+        .catch(err => console.log(err.response.message || err.message));
     }
   }
 };
