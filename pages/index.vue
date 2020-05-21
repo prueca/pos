@@ -34,7 +34,6 @@
           <ProductItem
             v-for="item in productList[activeCat]"
             :key="item.id"
-            :image="item.image"
             :name="item.name"
             :price="item.price"
             :stock="item.stock" />
@@ -67,7 +66,8 @@ export default {
         this.setCatList(catList);
         const activeCat = this.catList[0] || null;
         this.setActiveCat(activeCat);
-      });
+      })
+      .catch(err => console.log(err.response.data || err.message));
   },
   methods: {
     ...mapMutations(['setProductList']),

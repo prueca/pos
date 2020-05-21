@@ -23,7 +23,7 @@ export default class Product extends BaseModel {
    * @param {Object} params
    */
   static async newProduct(params) {
-    if (!params.name || !params.price || !params.stock || !params.image || !params.category) {
+    if (!params.name || !params.price || !params.stock || !params.category) {
       throw errors.MISSING_PARAM;
     }
 
@@ -40,7 +40,6 @@ export default class Product extends BaseModel {
         'productId',
         'name',
         'price',
-        'image',
         'category'
       ],
       include: {

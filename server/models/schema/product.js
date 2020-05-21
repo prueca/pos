@@ -22,9 +22,6 @@ export default {
       allowNull: false,
       defaultValue: 0.00
     },
-    image: {
-      type: Sequelize.STRING
-    },
     category: {
       type: Sequelize.STRING,
       allowNull: false

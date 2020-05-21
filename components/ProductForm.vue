@@ -32,10 +32,9 @@
             @onchange="setCategory" />
           <TextInput
             v-if="showCatTxtInput"
+            class="new-cat"
             icon="fas fa-fw fa-tag"
             placeholder="Enter category" />
-          <FileInput
-            icon="fas fa-fw fa-image" />
         </div>
         <div class="footer clearfix">
           <BtnLink
@@ -53,12 +52,11 @@
 import { mapState } from 'vuex';
 import TextInput from '~/components/TextInput';
 import Dropdown from '~/components/Dropdown';
-import FileInput from '~/components/FileInput';
 import BtnLink from '~/components/BtnLink';
 
 export default {
   name: 'ProductForm',
-  components: { TextInput, Dropdown, FileInput, BtnLink },
+  components: { TextInput, Dropdown, BtnLink },
   data: () => ({
     showCatTxtInput: false,
     form: {

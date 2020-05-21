@@ -1,24 +1,21 @@
 <template>
   <div class="item">
-    <img :src="image">
-    <div class="rows">
-      <div class="row clearfix">
-        <div class="name">
-          {{ name }}
-        </div>
-        <div class="price">
-          P{{ price.toFixed(2) }}
-        </div>
+    <div class="row">
+      <div class="name">
+        {{ name }}
       </div>
-      <div class="row clearfix">
-        <div class="stock">
-          In stock: {{ stock }}
-        </div>
+    </div>
+    <div class="row clearfix">
+      <div class="stock">
+        In stock: {{ stock }}
       </div>
-      <div class="row btn-grp">
-        <BtnLink text="Edit" class="btn" />
-        <BtnLink text="Delete" class="btn" />
+      <div class="price">
+        P{{ price.toFixed(2) }}
       </div>
+    </div>
+    <div class="row btn-grp">
+      <BtnLink text="Edit" class="btn" />
+      <BtnLink text="Delete" class="btn" />
     </div>
   </div>
 </template>
