@@ -8,8 +8,8 @@
         <nuxt-link to="/orders" class="link">
           Orders
         </nuxt-link>
-        <nuxt-link to="/new-order" class="link">
-          New Order
+        <nuxt-link to="/cart" class="link">
+          Cart
         </nuxt-link>
       </div>
     </div>

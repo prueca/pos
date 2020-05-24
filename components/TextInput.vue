@@ -1,6 +1,6 @@
 <template>
   <div class="text-input">
-    <span class="icon" :class="icon" />
+    <span v-if="icon" class="icon" :class="icon" />
     <input
       v-model="val"
       :type="type || 'text'"

@@ -7,22 +7,32 @@
   &:nth-of-type(3n-1)
     margin: 0 52px 52px
 
+.row
+  margin-bottom: 16px
+  padding-bottom: 16px
+  border-bottom: thin solid #ccc
+
 .btn-grp
-  margin-top: 12px
-  padding-top: 16px
-  border-top: thin solid #ccc
+  display: flex
+  margin-bottom: 0
+  padding-bottom: 0
+  border-bottom: 0
 
   .btn
-    width: 70px
+    width: 25%
     margin-right: 12px
-    display: inline-block
+
+    &:last-child
+      margin-right: 0
+
+.float-left
+  float: left
+
+.float-right
+  float: right
 
 .name
   font-weight: bold
 
-.stock
-  float: left
-
-.price
-  float: right
-  color: green
+.qty
+  width: 50px
