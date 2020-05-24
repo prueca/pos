@@ -10,7 +10,7 @@
         </h3>
         <div class="cat-list">
           <a
-            v-for="cat in catList"
+            v-for="cat in categoryList"
             :key="cat"
             :class="{ active: cat === activeCat }"
             class="cat"
@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapGetters, mapMutations } from 'vuex';
 import urls from '~/configs/urls';
 import ProductItem from '~/components/ProductItem';
 import ProductForm from '~/components/ProductForm';
@@ -54,20 +54,19 @@ export default {
   components: { ProductItem, ProductForm, Btn },
   data: () => ({
     activeCat: null,
-    catList: null,
     showProductForm: false
   }),
-  computed: mapState(['productList']),
+  computed: {
+    ...mapState(['productList']),
+    ...mapGetters(['categoryList'])
+  },
   created() {
     this.$axios.$get(urls.GET_PRODUCTS)
       .then((data) => {
         this.setProductList(data.products);
-        const catList = Object.keys(this.productList);
-        this.setCatList(catList);
-        const activeCat = this.catList[0] || null;
-        this.setActiveCat(activeCat);
+        this.setActiveCat(this.categoryList[0] || null);
       })
-      .catch(err => console.log(err.response.data || err.message));
+      .catch(err => console.log(err.response.data.error.message || err.message));
   },
   methods: {
     ...mapMutations(['setProductList']),

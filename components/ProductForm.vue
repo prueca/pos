@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 import TextInput from '~/components/TextInput';
 import Dropdown from '~/components/Dropdown';
 import Btn from '~/components/Btn';
@@ -96,6 +96,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['addProduct']),
     setCategory(cat) {
       if (cat === 'New category') {
         this.form.category = null;
@@ -116,6 +117,15 @@ export default {
       }
 
       evt.target.value = value;
+    },
+    resetForm() {
+      this.submitted = false;
+      this.form = {
+        name: null,
+        price: null,
+        stock: null,
+        category: null
+      };
     },
     hasError() {
       this.errors = [];
@@ -142,21 +152,13 @@ export default {
       this.submitted = true;
       this.$axios.$post(urls.NEW_PRODUCT, this.form)
         .then((res) => {
-          console.log(res);
+          this.addProduct(res.product);
+          this.$emit('toggleProductForm');
+          this.resetForm();
         })
         .catch((err) => {
-          this.errors.push(err.response.data.message || err.message);
-        })
-        .finally(() => setTimeout(() => {
-          this.$emit('toggleProductForm');
-          this.submitted = false;
-          this.form = {
-            name: null,
-            price: null,
-            stock: null,
-            category: null
-          };
-        }, 2000));
+          this.errors.push(err.response.data.error.message || err.message);
+        });
     }
   }
 };

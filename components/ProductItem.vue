@@ -10,7 +10,7 @@
         In stock: {{ stock }}
       </div>
       <div class="price">
-        P{{ price.toFixed(2) }}
+        P{{ Number(price).toFixed(2) }}
       </div>
     </div>
     <div class="row btn-grp">
