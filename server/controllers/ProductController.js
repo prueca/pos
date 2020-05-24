@@ -27,9 +27,9 @@ export default class IndexController {
    */
   async newProduct(req, res) {
     try {
-      const productId = await this.product.newProduct(req.body);
-      await this.stock.updateStock(productId, req.body.stock);
-      res.json({ success: true });
+      const product = await this.product.newProduct(req.body);
+      await this.stock.updateStock(product.productId, req.body.stock);
+      res.json({ product });
     } catch (err) {
       res.error(err);
     }

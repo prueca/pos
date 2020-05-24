@@ -27,8 +27,12 @@ export default class Product extends BaseModel {
       throw errors.MISSING_PARAM;
     }
 
-    const product = await this.create(params);
-    return product.productId;
+    let product = await this.create(params);
+    product = product.toJSON();
+    product.stock = params.stock;
+    delete product.createdAt;
+    delete product.updatedAt;
+    return product;
   }
 
   /**

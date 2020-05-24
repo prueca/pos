@@ -37,10 +37,26 @@
 .content
   width: 100%
   max-height: 320px
-  padding: 32px 16px
+  padding: 0 16px 32px
   overflow-x: hidden
   overflow-y: auto
   box-sizing: border-box
+
+  .errors
+    margin-top: 32px
+    padding: 8px 16px
+    background: #f0c7c7
+    border-radius: 8px
+    font-size: 0.9em
+    color: #e65757
+
+    ul
+      margin: 0
+      padding: 0
+      padding-left: 16px
+
+  .inputs
+    margin-top: 32px
 
   .inline-inputs
     display: flex
@@ -50,7 +66,6 @@
 
     &.new-cat
       margin-top: 32px
-      margin-bottom: 0
 
     &.item-price
       width: 100%

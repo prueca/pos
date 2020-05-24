@@ -4,14 +4,19 @@
     :form="form"
     :type="type || 'button'"
     @click="$emit('onclick', $event)">
-    {{ text }}
+    <span v-if="loading">
+      <i class="fas fa-fw fa-spin fa-spinner" />
+    </span>
+    <span v-else>
+      {{ text }}
+    </span>
   </button>
 </template>
 
 <script>
 export default {
   name: 'Btn',
-  props: ['type', 'text', 'form']
+  props: ['type', 'text', 'form', 'loading']
 };
 </script>
 

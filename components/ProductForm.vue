@@ -14,39 +14,51 @@
           </a>
         </div>
         <div class="content">
-          <TextInput
-            v-model="form.name"
-            class="item-name"
-            icon="fas fa-fw fa-file-signature"
-            placeholder="Enter product name" />
-          <div class="inline-inputs">
-            <TextInput
-              v-model="form.price"
-              class="item-price"
-              icon="fas fa-fw fa-barcode"
-              placeholder="Enter price"
-              @onblur="formatPrice" />
-            <TextInput
-              v-model="form.stock"
-              class="item-stock"
-              icon="fas fa-fw fa-layer-group"
-              placeholder="Enter stock" />
+          <div v-if="errors.length > 0" class="errors">
+            <ul v-if="errors.length > 1">
+              <li v-for="(err, idx) in errors" :key="idx">
+                {{ err }}
+              </li>
+            </ul>
+            <div v-else-if="errors.length === 1" class="err">
+              {{ errors[0] }}
+            </div>
           </div>
-          <Dropdown
-            v-model="form.category"
-            :options="catList"
-            icon="fas fa-fw fa-tag"
-            default-opt="Select category"
-            @onchange="setCategory" />
-          <TextInput
-            v-if="showCatTxtInput"
-            v-model="form.category"
-            class="new-cat"
-            icon="fas fa-fw fa-tag"
-            placeholder="Enter category" />
+          <div class="inputs">
+            <TextInput
+              v-model="form.name"
+              class="item-name"
+              icon="fas fa-fw fa-file-signature"
+              placeholder="Enter product name" />
+            <div class="inline-inputs">
+              <TextInput
+                v-model="form.price"
+                class="item-price"
+                icon="fas fa-fw fa-barcode"
+                placeholder="Enter price"
+                @onblur="formatPrice" />
+              <TextInput
+                v-model="form.stock"
+                class="item-stock"
+                icon="fas fa-fw fa-layer-group"
+                placeholder="Enter stock" />
+            </div>
+            <Dropdown
+              v-model="form.category"
+              :options="catList"
+              icon="fas fa-fw fa-tag"
+              default-opt="Select category"
+              @onchange="setCategory" />
+            <TextInput
+              v-if="showCatTxtInput"
+              v-model="form.category"
+              class="new-cat"
+              icon="fas fa-fw fa-tag"
+              placeholder="Enter category" />
+          </div>
         </div>
         <div class="footer clearfix">
-          <Btn text="Submit" type="submit" />
+          <Btn :loading="submitted" text="Submit" type="submit" />
           <Btn text="Close" @onclick="$emit('toggleProductForm')" />
         </div>
       </form>
@@ -66,6 +78,8 @@ export default {
   components: { TextInput, Dropdown, Btn },
   data: () => ({
     showCatTxtInput: false,
+    submitted: false,
+    errors: [],
     form: {
       name: null,
       price: null,
@@ -103,22 +117,46 @@ export default {
 
       evt.target.value = value;
     },
-    onSubmit() {
+    hasError() {
+      this.errors = [];
+
       if (!this.form.name || !this.form.price || !this.form.stock || !this.form.category) {
-        return alert('Missing input');
+        this.errors.push('Missing input');
       }
 
       if (isNaN(this.form.price)) {
-        return alert('Invalid price');
+        this.errors.push('Invalid price');
       }
 
       if (isNaN(this.form.stock)) {
-        return alert('Invalid stock');
+        this.errors.push('Invalid stock');
       }
 
+      return this.errors.length > 0;
+    },
+    onSubmit() {
+      if (this.hasError()) {
+        return;
+      }
+
+      this.submitted = true;
       this.$axios.$post(urls.NEW_PRODUCT, this.form)
-        .then(res => console.log(res))
-        .catch(err => console.log(err.response.message || err.message));
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          this.errors.push(err.response.data.message || err.message);
+        })
+        .finally(() => setTimeout(() => {
+          this.$emit('toggleProductForm');
+          this.submitted = false;
+          this.form = {
+            name: null,
+            price: null,
+            stock: null,
+            category: null
+          };
+        }, 2000));
     }
   }
 };
