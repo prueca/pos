@@ -32,8 +32,9 @@
         </div>
         <div class="product-list">
           <ProductItem
-            v-for="item in productList[activeCat]"
-            :key="item.id"
+            v-for="(item, i) in productList[activeCat]"
+            :key="i"
+            :pid="item.productId"
             :name="item.name"
             :price="item.price"
             :stock="item.stock" />

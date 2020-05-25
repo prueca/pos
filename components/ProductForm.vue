@@ -16,7 +16,7 @@
         <div class="content">
           <div v-if="errors.length > 0" class="errors">
             <ul v-if="errors.length > 1">
-              <li v-for="(err, idx) in errors" :key="idx">
+              <li v-for="(err, i) in errors" :key="i">
                 {{ err }}
               </li>
             </ul>

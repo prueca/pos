@@ -23,7 +23,7 @@
       </div>
     </div>
     <div class="row btn-grp">
-      <Btn text="Buy" />
+      <Btn text="Buy" @onclick="buyItem" />
       <Btn text="Stock" />
       <Btn text="Edit" />
       <Btn text="Delete" />
@@ -33,16 +33,28 @@
 
 <script>
 import Btn from '~/components/Btn';
+import urls from '~/configs/urls';
+
 export default {
   name: 'ProductItem',
   components: { Btn },
-  props: ['name', 'price', 'stock'],
+  props: ['pid', 'name', 'price', 'stock'],
   data: () => ({
     qty: 1
   }),
   methods: {
     qtyChange(evt) {
-      this.qty = evt.target.value;
+      this.qty = Number(evt.target.value) > 0 ? evt.target.value : 1;
+    },
+    buyItem() {
+      const oid = this.$cookies.get('oid');
+      const data = {
+        oid: oid || null,
+        pid: this.pid,
+        qty: this.qty
+      };
+
+      this.$axios.$post(urls.ADD_TO_CART, data);
     }
   }
 };
