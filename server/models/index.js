@@ -3,6 +3,8 @@ import config from '../configs/database';
 import schema from './schema';
 import Product from './Product';
 import Stock from './Stock';
+import Order from './Order';
+import OrderItem from './OrderItem';
 
 export const conn = new Sequelize(
   config.DATABASE,
@@ -18,7 +20,9 @@ export const conn = new Sequelize(
 
 const models = {
   Product: Product.init(conn, schema.product),
-  Stock: Stock.init(conn, schema.stock)
+  Stock: Stock.init(conn, schema.stock),
+  Order: Order.init(conn, schema.order),
+  OrderItem: OrderItem.init(conn, schema.orderItem)
 };
 
 Object.values(models)

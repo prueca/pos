@@ -1,4 +1,5 @@
 import express from 'express';
+import cookieParser from 'cookie-parser';
 import { ready } from 'consola';
 import { Nuxt, Builder } from 'nuxt';
 import config from '../nuxt.config.js';
@@ -6,7 +7,9 @@ import apiRouter from './routes/api';
 
 const app = express();
 
+// middlewares
 app.use(express.json());
+app.use(cookieParser());
 
 // routes
 app.use('/api', apiRouter);
