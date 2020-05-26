@@ -8,7 +8,7 @@ export default class Product extends BaseModel {
    */
   static associate(models) {
     this.hasMany(models.OrderItem, {
-      as: 'OrderItems',
+      as: 'orderItems',
       onDelete: 'cascade',
       foreignKey: 'order_id'
     });

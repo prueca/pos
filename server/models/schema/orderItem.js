@@ -15,7 +15,6 @@ export default {
     },
     orderId: {
       type: Sequelize.INTEGER,
-      allowNull: false
     },
     productId: {
       type: Sequelize.INTEGER,

@@ -6,7 +6,6 @@ export default class IndexController {
    */
   constructor() {
     this.product = models.Product;
-    this.stock = models.Stock;
   }
 
   /**
@@ -28,7 +27,6 @@ export default class IndexController {
   async newProduct(req, res) {
     try {
       const product = await this.product.newProduct(req.body);
-      await this.stock.updateStock(product.productId, req.body.stock);
       res.json({ product });
     } catch (err) {
       res.error(err);

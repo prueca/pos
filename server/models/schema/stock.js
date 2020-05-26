@@ -13,6 +13,9 @@ export default {
       primaryKey: true,
       autoIncrement: true
     },
+    productId: {
+      type: Sequelize.INTEGER
+    },
     stock: {
       type: Sequelize.INTEGER,
       allowNull: false,

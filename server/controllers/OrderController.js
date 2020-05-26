@@ -6,9 +6,7 @@ export default class IndexController {
    */
   constructor() {
     this.product = models.Product;
-    this.stock = models.Stock;
     this.order = models.Order;
-    this.OrderItem = models.OrderItem;
   }
 
   /**

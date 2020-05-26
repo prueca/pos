@@ -11,7 +11,7 @@ export default class Product extends BaseModel {
    */
   static associate(models) {
     this.hasMany(models.Stock, {
-      as: 'Stock',
+      as: 'stock',
       onDelete: 'cascade',
       foreignKey: 'product_id'
     });
@@ -27,11 +27,17 @@ export default class Product extends BaseModel {
       throw errors.MISSING_PARAM;
     }
 
-    let product = await this.create(params);
+    let product = await this.create({
+      ...params,
+      stock: [{ stock: params.stock }]
+    }, {
+      include: {
+        model: models.Stock,
+        as: 'stock'
+      }
+    });
     product = product.toJSON();
-    product.stock = params.stock;
-    delete product.createdAt;
-    delete product.updatedAt;
+    product.stock = product.stock[0].stock;
     return product;
   }
 
@@ -48,7 +54,7 @@ export default class Product extends BaseModel {
       ],
       include: {
         model: models.Stock,
-        as: 'Stock',
+        as: 'stock',
         attributes: ['stock']
       }
     });
@@ -57,11 +63,10 @@ export default class Product extends BaseModel {
       const item = product.toJSON();
       let stock = 0;
 
-      if (item.Stock.length > 0) {
-        stock = item.Stock.pop().stock;
+      if (item.stock.length > 0) {
+        stock = item.stock.pop().stock;
       }
 
-      item.Stock = undefined;
       item.stock = stock;
       return item;
     });
