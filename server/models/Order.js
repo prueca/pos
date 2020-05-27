@@ -1,6 +1,6 @@
 import BaseModel from './BaseModel';
 
-export default class Product extends BaseModel {
+export default class Order extends BaseModel {
   /**
    * Associate order to order item
    *

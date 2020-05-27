@@ -18,6 +18,7 @@ module.exports = {
     'vue/require-prop-types': 'off',
     'space-before-function-paren': 'off',
     'no-console': 'off',
+    'padded-blocks': 'off',
     'semi': ['error', 'always']
   }
 }

@@ -7,6 +7,7 @@ export default class IndexController {
   constructor() {
     this.product = models.Product;
     this.order = models.Order;
+    this.orderItem = models.OrderItem;
   }
 
   /**
@@ -25,7 +26,24 @@ export default class IndexController {
    * @param {Object} req
    * @param {Object} res
    */
-  addToCart(req, res) {
-    res.json({ status: 200 });
+  async addToCart(req, res) {
+    try {
+      const { pid, qty } = req.body;
+      let { oid } = req.body;
+
+      if (!oid) {
+        const newOrder = await this.order.create();
+        oid = newOrder.orderId;
+      }
+
+      await this.orderItem.addItem(oid, pid, qty);
+      const maxAge = 1000 * 60 * 60 * 8; // 8h
+
+      res.cookie('oid', oid, { maxAge })
+        .json({ success: true });
+
+    } catch (err) {
+      res.json({ error: err.message });
+    }
   }
 }
