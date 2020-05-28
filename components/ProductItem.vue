@@ -25,7 +25,8 @@
     <div class="row btn-grp">
       <Btn
         text="Checkout"
-        :loading="loading.checkout" />
+        :loading="loading.checkout"
+        @onclick="checkout" />
       <Btn
         text="Add To Cart"
         :loading="loading.addToCart"
@@ -66,10 +67,10 @@ export default {
         qty: Number(this.qty)
       };
 
-      this.loading.buy = true;
+      this.loading.addToCart = true;
       this.$axios.$post(urls.ADD_TO_CART, data)
         .then((res) => {
-          this.loading.buy = false;
+          this.loading.addToCart = false;
 
           if (res.error || res.message) {
             alert(res.error || res.message);
@@ -88,7 +89,43 @@ export default {
           });
         })
         .catch((err) => {
-          this.loading.buy = false;
+          this.loading.addToCart = false;
+          alert(err.message);
+        });
+    },
+    checkout() {
+      const oid = this.$cookies.get('oid');
+      const data = {
+        oid: oid || null,
+        pid: this.pid,
+        qty: Number(this.qty)
+      };
+
+      this.loading.checkout = true;
+      this.$axios.$post(urls.ADD_TO_CART, data)
+        .then((res) => {
+          this.loading.checkout = false;
+
+          if (res.error || res.message) {
+            alert(res.error || res.message);
+          }
+
+          this.updateInCart({
+            cat: this.cat,
+            pid: this.pid,
+            inCart: res.inCart
+          });
+
+          this.updateStock({
+            cat: this.cat,
+            pid: this.pid,
+            stock: res.stock
+          });
+
+          this.$router.push('/cart');
+        })
+        .catch((err) => {
+          this.loading.checkout = false;
           alert(err.message);
         });
     }
