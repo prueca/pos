@@ -36,7 +36,7 @@ export default class Stock extends BaseModel {
    *
    * @param {Number} pid
    *
-   * @returns {Object<Promise>}
+   * @returns {Promise<Number>}
    */
   static async getStock(pid) {
     if (!pid) {

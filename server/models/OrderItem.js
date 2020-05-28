@@ -19,7 +19,7 @@ export default class OrderItem extends BaseModel {
    * @param {Number} oid
    * @param {Number} pid
    *
-   * @returns {Object<Promise>}
+   * @returns {Promise<Number>}
    */
   static async getCurrQty(oid, pid) {
     if (!pid) {
@@ -51,8 +51,6 @@ export default class OrderItem extends BaseModel {
    * @param {Number} oid
    * @param {Number} pid
    * @param {Number} qty
-   *
-   * @returns {Object<Promise>}
    */
   static async addItem(oid, pid, qty) {
     if (!oid || !pid || qty === null || qty === undefined) {

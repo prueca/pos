@@ -21,6 +21,8 @@ export default class Product extends BaseModel {
    * Create new product
    *
    * @param {Object} params
+   *
+   * @returns {Promise<Product>}
    */
   static async newProduct(params) {
     if (!params.name || !params.price || !params.stock || !params.category) {
@@ -43,6 +45,8 @@ export default class Product extends BaseModel {
 
   /**
    * Get all products
+   *
+   * @returns {Promise<Object>}
    */
   static async getProducts() {
     let products = await this.findAll({

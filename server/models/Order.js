@@ -19,7 +19,7 @@ export default class Order extends BaseModel {
    *
    * @param {Number} oid
    *
-   * @returns {Object<Promise>}
+   * @returns {Promise<Order>}
    */
   static async newOrder(oid) {
     let order = null;
