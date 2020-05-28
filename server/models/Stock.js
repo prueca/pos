@@ -16,19 +16,19 @@ export default class Stock extends BaseModel {
   /**
    * Update product stock
    *
-   * @param {Number} productId
+   * @param {Number} pid
    * @param {Number} stock
    */
-  static async updateStock(productId, stock) {
-    if (productId === null || productId === undefined || stock === null || stock === undefined) {
+  static async updateStock(pid, stock) {
+    if (pid === null || pid === undefined || stock === null || stock === undefined) {
       throw errors.MISSING_PARAM;
     }
 
-    if (typeof productId !== 'number' || isNaN(stock)) {
+    if (typeof pid !== 'number' || isNaN(stock)) {
       throw errors.INVALID_PARAM;
     }
 
-    await this.create({ product_id: productId, stock });
+    await this.create({ productId: pid, stock });
   }
 
   /**

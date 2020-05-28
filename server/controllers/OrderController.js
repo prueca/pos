@@ -32,7 +32,7 @@ export default class IndexController {
       let { oid, qty } = req.body;
       const pid = req.body.pid;
       const stock = await this.stock.getStock(pid);
-      const currQty = await this.orderItem.getCurrQty(oid, pid);
+      const currQty = oid ? await this.orderItem.getCurrQty(oid, pid) : 0;
 
       qty = Number(qty);
 

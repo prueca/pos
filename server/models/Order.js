@@ -1,3 +1,4 @@
+import errors from '../configs/errors';
 import BaseModel from './BaseModel';
 
 export default class Order extends BaseModel {
@@ -22,6 +23,10 @@ export default class Order extends BaseModel {
    * @returns {Promise<Order>}
    */
   static async newOrder(oid) {
+    if (oid && typeof oid !== 'number') {
+      throw errors.INVALID_PARAM;
+    }
+
     let order = null;
 
     if (oid) {

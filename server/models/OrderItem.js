@@ -22,12 +22,12 @@ export default class OrderItem extends BaseModel {
    * @returns {Promise<Number>}
    */
   static async getCurrQty(oid, pid) {
-    if (!pid) {
+    if (!oid || !pid) {
       throw errors.MISSING_PARAM;
     }
 
-    if (!oid) {
-      return 0;
+    if (typeof oid !== 'number' || typeof pid !== 'number') {
+      throw errors.INVALID_PARAM;
     }
 
     const item = await this.findOne({
