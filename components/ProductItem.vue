@@ -23,7 +23,9 @@
       </div>
     </div>
     <div class="row btn-grp">
-      <Btn text="Place Order" />
+      <Btn
+        text="Checkout"
+        :loading="loading.checkout" />
       <Btn
         text="Add To Cart"
         :loading="loading.addToCart"
@@ -44,7 +46,8 @@ export default {
   data: () => ({
     qty: 1,
     loading: {
-      addToCart: false
+      addToCart: false,
+      checkout: false
     }
   }),
   methods: {

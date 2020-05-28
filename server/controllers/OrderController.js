@@ -52,20 +52,4 @@ export default class IndexController {
       res.error(err);
     }
   }
-
-  /**
-   * Get current quantity in cart
-   *
-   * @param {Object} req
-   * @param {Object} res
-   */
-  async getCartQty(req, res) {
-    try {
-      const { oid, pid } = req.body;
-      const qty = await this.orderItem.getCurrQty(oid, pid);
-      res.json({ qty });
-    } catch (err) {
-      res.error(err);
-    }
-  }
 }
