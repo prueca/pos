@@ -46,7 +46,7 @@ export default class IndexController {
       const maxAge = 1000 * 60 * 60 * 8; // 8h
 
       res.cookie('oid', oid, { maxAge })
-        .json({ stock, totalQty });
+        .json({ stock, inCart: totalQty });
 
     } catch (err) {
       res.error(err);

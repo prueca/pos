@@ -39,24 +39,18 @@ import urls from '~/configs/urls';
 export default {
   name: 'ProductItem',
   components: { Btn },
-  props: ['pid', 'name', 'price', 'stock', 'cat'],
+  props: ['pid', 'name', 'price', 'stock', 'cat', 'inCart'],
   data: () => ({
     qty: 1,
-    inCart: 0,
     loading: {
       buy: false
     }
   }),
-  created() {
-    const oid = this.$cookies.get('oid');
-
-    if (oid) {
-      this.$axios.$post(urls.GET_CART_QTY, { oid, pid: this.pid })
-        .then(res => (this.inCart = res.qty));
-    }
-  },
   methods: {
-    ...mapMutations(['updateStock']),
+    ...mapMutations([
+      'updateStock',
+      'updateInCart'
+    ]),
     qtyChange(evt) {
       this.qty = Number(evt.target.value) > 0 ? evt.target.value : 1;
     },
@@ -77,7 +71,12 @@ export default {
             alert(res.error || res.message);
           }
 
-          this.inCart = res.totalQty;
+          this.updateInCart({
+            cat: this.cat,
+            pid: this.pid,
+            inCart: res.inCart
+          });
+
           this.updateStock({
             cat: this.cat,
             pid: this.pid,

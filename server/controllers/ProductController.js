@@ -41,7 +41,8 @@ export default class IndexController {
    */
   async getProducts(req, res) {
     try {
-      const products = await this.product.getProducts();
+      const oid = req.cookies.oid ? Number(req.cookies.oid) : undefined;
+      const products = await this.product.getProducts(oid);
       res.json({ products });
     } catch (err) {
       res.error(err);

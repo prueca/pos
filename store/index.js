@@ -30,5 +30,14 @@ export const mutations = {
 
       return item;
     });
+  },
+  updateInCart(state, { cat, pid, inCart }) {
+    state.productList[cat] = state.productList[cat].map((item) => {
+      if (item.productId === pid) {
+        item.inCart = inCart;
+      }
+
+      return item;
+    });
   }
 };

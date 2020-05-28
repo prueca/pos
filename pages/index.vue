@@ -38,7 +38,8 @@
             :name="item.name"
             :price="item.price"
             :stock="item.stock"
-            :cat="item.category" />
+            :cat="item.category"
+            :in-cart="item.inCart" />
         </div>
       </div>
     </div>

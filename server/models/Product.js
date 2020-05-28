@@ -15,6 +15,11 @@ export default class Product extends BaseModel {
       onDelete: 'cascade',
       foreignKey: 'product_id'
     });
+
+    this.hasMany(models.OrderItem, {
+      as: 'inCart',
+      foreignKey: 'product_id'
+    });
   }
 
   /**
@@ -48,29 +53,51 @@ export default class Product extends BaseModel {
    *
    * @returns {Promise<Object>}
    */
-  static async getProducts() {
+  static async getProducts(oid) {
+    if (oid && typeof oid !== 'number') {
+      throw errors.INVALID_PARAM;
+    }
+
+    const include = [{
+      model: models.Stock,
+      as: 'stock',
+      attributes: ['stock']
+    }];
+
+    if (oid) {
+      include.push({
+        model: models.OrderItem,
+        as: 'inCart',
+        attributes: ['orderId', 'quantity'],
+        where: { orderId: oid },
+        required: false
+      });
+    }
+
     let products = await this.findAll({
+      include,
       attributes: [
         'productId',
         'name',
         'price',
         'category'
-      ],
-      include: {
-        model: models.Stock,
-        as: 'stock',
-        attributes: ['stock']
-      }
+      ]
     });
 
     products = products.map((product) => {
       const item = product.toJSON();
       let stock = 0;
+      let inCart = 0;
 
       if (item.stock.length > 0) {
         stock = item.stock.pop().stock;
       }
 
+      if (oid && item.inCart && item.inCart.length > 0) {
+        inCart = item.inCart.pop().quantity;
+      }
+
+      item.inCart = inCart;
       item.stock = stock;
       return item;
     });
