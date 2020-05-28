@@ -16,7 +16,7 @@
         v-model="qty"
         class="float-right qty"
         type="number"
-        min="0"
+        min="1"
         @change="qtyChange">
       <div class="float-left">
         In cart: {{ inCart }}
@@ -53,7 +53,7 @@ export default {
       'updateInCart'
     ]),
     qtyChange(evt) {
-      this.qty = Number(evt.target.value) > -1 ? evt.target.value : 1;
+      this.qty = Number(evt.target.value) > 0 ? evt.target.value : 1;
     },
     addToCart() {
       const oid = this.$cookies.get('oid');

@@ -72,9 +72,6 @@ export default class OrderItem extends BaseModel {
       orderItem.quantity += qty;
       await orderItem.save();
       return;
-    } else if (orderItem && qty < 1) {
-      await orderItem.destroy();
-      return;
     }
 
     await this.create({
