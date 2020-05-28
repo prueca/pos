@@ -29,14 +29,13 @@ export default class IndexController {
    */
   async addToCart(req, res) {
     try {
-      let { oid, qty } = req.body;
-      const pid = req.body.pid;
+      let { oid } = req.body;
+      const { pid, qty } = req.body;
       const stock = await this.stock.getStock(pid);
       const currQty = oid ? await this.orderItem.getCurrQty(oid, pid) : 0;
+      const totalQty = qty + currQty;
 
-      qty = Number(qty);
-
-      if (stock < (qty + currQty)) {
+      if (stock < totalQty) {
         return res.json({ stock, message: 'Insufficient stock' });
       }
 
@@ -47,8 +46,24 @@ export default class IndexController {
       const maxAge = 1000 * 60 * 60 * 8; // 8h
 
       res.cookie('oid', oid, { maxAge })
-        .json({ stock, success: true });
+        .json({ stock, totalQty });
 
+    } catch (err) {
+      res.error(err);
+    }
+  }
+
+  /**
+   * Get current quantity in cart
+   *
+   * @param {Object} req
+   * @param {Object} res
+   */
+  async getCartQty(req, res) {
+    try {
+      const { oid, pid } = req.body;
+      const qty = await this.orderItem.getCurrQty(oid, pid);
+      res.json({ qty });
     } catch (err) {
       res.error(err);
     }

@@ -14,12 +14,12 @@
     <div class="row clearfix">
       <input
         v-model="qty"
-        class="float-left qty"
+        class="float-right qty"
         type="number"
         min="1"
         @change="qtyChange">
-      <div class="float-right">
-        P{{ (qty * price).toFixed(2) }}
+      <div class="float-left">
+        In cart: {{ inCart }}
       </div>
     </div>
     <div class="row btn-grp">
@@ -42,10 +42,19 @@ export default {
   props: ['pid', 'name', 'price', 'stock', 'cat'],
   data: () => ({
     qty: 1,
+    inCart: 0,
     loading: {
       buy: false
     }
   }),
+  created() {
+    const oid = this.$cookies.get('oid');
+
+    if (oid) {
+      this.$axios.$post(urls.GET_CART_QTY, { oid, pid: this.pid })
+        .then(res => (this.inCart = res.qty));
+    }
+  },
   methods: {
     ...mapMutations(['updateStock']),
     qtyChange(evt) {
@@ -56,7 +65,7 @@ export default {
       const data = {
         oid: oid || null,
         pid: this.pid,
-        qty: this.qty
+        qty: Number(this.qty)
       };
 
       this.loading.buy = true;
@@ -68,6 +77,7 @@ export default {
             alert(res.error || res.message);
           }
 
+          this.inCart = res.totalQty;
           this.updateStock({
             cat: this.cat,
             pid: this.pid,
