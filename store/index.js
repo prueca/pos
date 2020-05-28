@@ -21,5 +21,14 @@ export const mutations = {
     }
 
     Vue.set(state.productList, cat, [product]);
+  },
+  updateStock(state, { cat, pid, stock }) {
+    state.productList[cat] = state.productList[cat].map((item) => {
+      if (item.productId === pid) {
+        item.stock = stock;
+      }
+
+      return item;
+    });
   }
 };

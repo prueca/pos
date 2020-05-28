@@ -23,7 +23,7 @@
       </div>
     </div>
     <div class="row btn-grp">
-      <Btn text="Buy" @onclick="buyItem" />
+      <Btn text="Buy" :loading="loading.buy" @onclick="buyItem" />
       <Btn text="Stock" />
       <Btn text="Edit" />
       <Btn text="Delete" />
@@ -32,17 +32,22 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
 import Btn from '~/components/Btn';
 import urls from '~/configs/urls';
 
 export default {
   name: 'ProductItem',
   components: { Btn },
-  props: ['pid', 'name', 'price', 'stock'],
+  props: ['pid', 'name', 'price', 'stock', 'cat'],
   data: () => ({
-    qty: 1
+    qty: 1,
+    loading: {
+      buy: false
+    }
   }),
   methods: {
+    ...mapMutations(['updateStock']),
     qtyChange(evt) {
       this.qty = Number(evt.target.value) > 0 ? evt.target.value : 1;
     },
@@ -54,7 +59,25 @@ export default {
         qty: this.qty
       };
 
-      this.$axios.$post(urls.ADD_TO_CART, data);
+      this.loading.buy = true;
+      this.$axios.$post(urls.ADD_TO_CART, data)
+        .then((res) => {
+          this.loading.buy = false;
+
+          if (res.error || res.message) {
+            alert(res.error || res.message);
+          }
+
+          this.updateStock({
+            cat: this.cat,
+            pid: this.pid,
+            stock: res.stock
+          });
+        })
+        .catch((err) => {
+          this.loading.buy = false;
+          alert(err.message);
+        });
     }
   }
 };

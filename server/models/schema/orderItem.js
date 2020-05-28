@@ -14,7 +14,7 @@ export default {
       autoIncrement: true
     },
     orderId: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.INTEGER
     },
     productId: {
       type: Sequelize.INTEGER,

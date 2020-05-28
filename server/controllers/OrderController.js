@@ -6,6 +6,7 @@ export default class IndexController {
    */
   constructor() {
     this.product = models.Product;
+    this.stock = models.Stock;
     this.order = models.Order;
     this.orderItem = models.OrderItem;
   }
@@ -28,22 +29,28 @@ export default class IndexController {
    */
   async addToCart(req, res) {
     try {
-      const { pid, qty } = req.body;
-      let { oid } = req.body;
+      let { oid, qty } = req.body;
+      const pid = req.body.pid;
+      const stock = await this.stock.getStock(pid);
+      const currQty = await this.orderItem.getCurrQty(oid, pid);
 
-      if (!oid) {
-        const newOrder = await this.order.create();
-        oid = newOrder.orderId;
+      qty = Number(qty);
+
+      if (stock < (qty + currQty)) {
+        return res.json({ stock, message: 'Insufficient stock' });
       }
+
+      const newOrder = await this.order.newOrder(oid);
+      oid = newOrder.orderId;
 
       await this.orderItem.addItem(oid, pid, qty);
       const maxAge = 1000 * 60 * 60 * 8; // 8h
 
       res.cookie('oid', oid, { maxAge })
-        .json({ success: true });
+        .json({ stock, success: true });
 
     } catch (err) {
-      res.json({ error: err.message });
+      res.error(err);
     }
   }
 }

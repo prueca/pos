@@ -37,7 +37,8 @@
             :pid="item.productId"
             :name="item.name"
             :price="item.price"
-            :stock="item.stock" />
+            :stock="item.stock"
+            :cat="item.category" />
         </div>
       </div>
     </div>
@@ -67,7 +68,7 @@ export default {
         this.setProductList(data.products);
         this.setActiveCat(this.categoryList[0] || null);
       })
-      .catch(err => console.log(err.response.data.error.message || err.message));
+      .catch(err => console.log(err.message));
   },
   methods: {
     ...mapMutations(['setProductList']),
