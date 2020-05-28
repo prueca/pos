@@ -16,17 +16,18 @@
         v-model="qty"
         class="float-right qty"
         type="number"
-        min="1"
+        min="0"
         @change="qtyChange">
       <div class="float-left">
         In cart: {{ inCart }}
       </div>
     </div>
     <div class="row btn-grp">
-      <Btn text="Buy" :loading="loading.buy" @onclick="buyItem" />
-      <Btn text="Stock" />
-      <Btn text="Edit" />
-      <Btn text="Delete" />
+      <Btn text="Place Order" />
+      <Btn
+        text="Add To Cart"
+        :loading="loading.addToCart"
+        @onclick="addToCart" />
     </div>
   </div>
 </template>
@@ -43,7 +44,7 @@ export default {
   data: () => ({
     qty: 1,
     loading: {
-      buy: false
+      addToCart: false
     }
   }),
   methods: {
@@ -52,9 +53,9 @@ export default {
       'updateInCart'
     ]),
     qtyChange(evt) {
-      this.qty = Number(evt.target.value) > 0 ? evt.target.value : 1;
+      this.qty = Number(evt.target.value) > -1 ? evt.target.value : 1;
     },
-    buyItem() {
+    addToCart() {
       const oid = this.$cookies.get('oid');
       const data = {
         oid: oid || null,
