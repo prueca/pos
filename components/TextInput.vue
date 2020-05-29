@@ -5,6 +5,7 @@
       v-model="val"
       :type="type || 'text'"
       :placeholder="placeholder"
+      :style="{ 'text-align': textAlign || 'left' }"
       @blur="$emit('onblur', $event)">
   </div>
 </template>
@@ -12,7 +13,7 @@
 <script>
 export default {
   name: 'TextInput',
-  props: ['value', 'type', 'icon', 'placeholder'],
+  props: ['value', 'type', 'icon', 'placeholder', 'textAlign'],
   computed: {
     val: {
       get() { return this.value; },
