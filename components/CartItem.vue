@@ -14,12 +14,13 @@
       <Btn type="button" text="+" />
     </div>
     <div class="col">
-      <div class="item-total-price">
+      <div class="item-total">
         P2.00
       </div>
     </div>
     <div class="col">
       <Btn class="remove-btn" type="button" text="Remove" />
+      <Btn class="update-btn" type="button" text="Update" />
     </div>
   </div>
 </template>

@@ -25,10 +25,10 @@
         </div>
         <div class="row clearfix">
           <div class="label float-left">
-            Subtotal
+            Order ID
           </div>
           <div class="value float-right">
-            P120.90
+            X570Z
           </div>
         </div>
         <div class="row clearfix total-charge">
