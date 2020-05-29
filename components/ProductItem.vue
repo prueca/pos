@@ -1,9 +1,9 @@
 <template>
   <div class="item">
+    <div class="row clearfix name">
+      {{ name }}
+    </div>
     <div class="row clearfix">
-      <div class="name">
-        {{ name }}
-      </div>
       <div class="float-left">
         In stock: {{ stock }}
       </div>
