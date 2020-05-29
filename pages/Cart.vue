@@ -31,9 +31,9 @@
             P120.90
           </div>
         </div>
-        <div class="row clearfix">
+        <div class="row clearfix total-charge">
           <div class="label float-left">
-            Order Total
+            Total charge
           </div>
           <div class="value float-right">
             P120.90
