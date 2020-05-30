@@ -2,13 +2,13 @@
   <div id="nav">
     <div class="container clearfix">
       <div class="link-grp">
-        <nuxt-link to="/" class="link active">
+        <nuxt-link to="/" class="link" :class="{ active: $route.path === '/' }">
           Products
         </nuxt-link>
-        <nuxt-link to="/orders" class="link">
+        <nuxt-link to="/orders" class="link" :class="{ active: $route.path === '/orders' }">
           Orders
         </nuxt-link>
-        <nuxt-link to="/cart" class="link">
+        <nuxt-link to="/cart" class="link" :class="{ active: $route.path === '/cart' }">
           Cart
         </nuxt-link>
       </div>

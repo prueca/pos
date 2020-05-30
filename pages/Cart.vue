@@ -8,12 +8,11 @@
         <span v-if="loadingItems" class="fas fa-fw fa-spin fa-spinner" />
         {{ message }}
       </p>
-      <CartItem />
       <div v-if="orderItems" class="cart-items">
         <CartItem
-          v-for="item in orderIems"
-          :key="item.id"
-          :item="item" />
+          v-for="item in orderItems"
+          :key="item.itemId"
+          :cart-item="item" />
       </div>
     </div>
     <div class="right-panel">
@@ -77,7 +76,22 @@ export default {
 
     this.loadingItems = true;
     this.message = 'Loading order items...';
-    this.$axios.get(`${urls.GET_ORDER}/${oid}`);
+    this.$axios.get(`${urls.GET_ORDER}/${oid}`)
+      .then((res) => {
+        this.loadingItems = false;
+        this.message = null;
+
+        if (res.data.error) {
+          this.message = res.data.error.message;
+          return;
+        }
+
+        this.orderId = res.data.order.orderId;
+        this.orderItems = res.data.order.orderItems;
+        this.inCart = res.data.order.itemCount;
+        this.totalCharge = `P${Number(res.data.order.totalCharge).toFixed(2)}`;
+      })
+      .catch(err => alert(err.message));
   }
 };
 </script>

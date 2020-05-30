@@ -2,20 +2,20 @@
   <div class="cart-item">
     <div class="col">
       <div class="name">
-        Pandesal
+        {{ cartItem.product.name }}
       </div>
       <div class="price">
-        P2.00
+        P{{ Number(cartItem.product.price).toFixed(2) }}
       </div>
     </div>
     <div class="col">
       <Btn type="button" text="-" />
-      <TextInput value="1" text-align="center" />
+      <TextInput :value="cartItem.quantity" text-align="center" />
       <Btn type="button" text="+" />
     </div>
     <div class="col">
       <div class="item-total">
-        P2.00
+        P{{ Number(cartItem.itemTotal).toFixed(2) }}
       </div>
     </div>
     <div class="col">
@@ -30,7 +30,8 @@ import TextInput from '~/components/TextInput';
 import Btn from '~/components/Btn';
 export default {
   name: 'CartItem',
-  components: { Btn, TextInput }
+  components: { Btn, TextInput },
+  props: ['cartItem']
 };
 </script>
 
