@@ -9,7 +9,12 @@ export default class OrderItem extends BaseModel {
    */
   static associate(models) {
     this.belongsTo(models.Order, {
-      foreignKey: 'order_id'
+      foreignKey: 'orderId'
+    });
+
+    this.belongsTo(models.Product, {
+      as: 'product',
+      foreignKey: 'productId'
     });
   }
 

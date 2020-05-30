@@ -52,4 +52,20 @@ export default class IndexController {
       res.error(err);
     }
   }
+
+  /**
+   * Get order
+   *
+   * @param {Object} req
+   * @param {Object} res
+   */
+  async getOrder(req, res) {
+    try {
+      const oid = Number(req.params.oid);
+      const order = await this.order.getOrder(oid);
+      res.json({ order });
+    } catch (err) {
+      res.error(err);
+    }
+  }
 }

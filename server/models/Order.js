@@ -1,5 +1,6 @@
 import errors from '../configs/errors';
 import BaseModel from './BaseModel';
+import models from './index';
 
 export default class Order extends BaseModel {
   /**
@@ -11,7 +12,7 @@ export default class Order extends BaseModel {
     this.hasMany(models.OrderItem, {
       as: 'orderItems',
       onDelete: 'cascade',
-      foreignKey: 'order_id'
+      foreignKey: 'orderId'
     });
   }
 
@@ -36,6 +37,46 @@ export default class Order extends BaseModel {
     } else {
       order = await this.create();
     }
+
+    return order;
+  }
+
+  /**
+   * Get order
+   *
+   * @param {Number} oid
+   *
+   * @returns {Promise<Order>}
+   */
+  static async getOrder(oid) {
+    if (!oid) {
+      throw errors.MISSING_PARAM;
+    }
+
+    if (typeof oid !== 'number') {
+      throw errors.INVALID_PARAM;
+    }
+
+    let order = await this.findOne({
+      where: { orderId: oid },
+      include: {
+        model: models.OrderItem,
+        as: 'orderItems',
+        attributes: ['itemId', 'quantity'],
+        include: {
+          model: models.Product,
+          as: 'product'
+        }
+      }
+    });
+
+    order = order.toJSON();
+    order.totalCharge = 0;
+    order.orderItems = order.orderItems.map((item) => {
+      const itemTotal = item.product.price * item.quantity;
+      order.totalCharge += itemTotal;
+      return { ...item, itemTotal };
+    });
 
     return order;
   }

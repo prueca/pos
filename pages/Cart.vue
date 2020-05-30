@@ -4,10 +4,16 @@
       <h3 class="panel-title">
         Cart Items
       </h3>
-      <div class="cart-items">
-        <CartItem />
-        <CartItem />
-        <CartItem />
+      <p v-if="!orderItems && message" class="message">
+        <span v-if="loadingItems" class="fas fa-fw fa-spin fa-spinner" />
+        {{ message }}
+      </p>
+      <CartItem />
+      <div v-if="orderItems" class="cart-items">
+        <CartItem
+          v-for="item in orderIems"
+          :key="item.id"
+          :item="item" />
       </div>
     </div>
     <div class="right-panel">
@@ -20,7 +26,7 @@
             Items in cart
           </div>
           <div class="value float-right">
-            16
+            {{ inCart }}
           </div>
         </div>
         <div class="row clearfix">
@@ -28,7 +34,7 @@
             Order ID
           </div>
           <div class="value float-right">
-            X570Z
+            {{ orderId }}
           </div>
         </div>
         <div class="row clearfix total-charge">
@@ -36,7 +42,7 @@
             Total charge
           </div>
           <div class="value float-right">
-            P120.90
+            {{ totalCharge }}
           </div>
         </div>
         <div class="row">
@@ -50,8 +56,29 @@
 <script>
 import CartItem from '~/components/CartItem';
 import Btn from '~/components/Btn';
+import urls from '~/configs/urls';
+
 export default {
-  components: { CartItem, Btn }
+  components: { CartItem, Btn },
+  data: () => ({
+    message: 'Empty cart',
+    loadingItems: false,
+    orderItems: null,
+    inCart: '---',
+    orderId: '---',
+    totalCharge: '---'
+  }),
+  created() {
+    const oid = this.$cookies.get('oid');
+
+    if (!oid) {
+      return false;
+    }
+
+    this.loadingItems = true;
+    this.message = 'Loading order items...';
+    this.$axios.get(`${urls.GET_ORDER}/${oid}`);
+  }
 };
 </script>
 

@@ -13,12 +13,12 @@ export default class Product extends BaseModel {
     this.hasMany(models.Stock, {
       as: 'stock',
       onDelete: 'cascade',
-      foreignKey: 'product_id'
+      foreignKey: 'productId'
     });
 
     this.hasMany(models.OrderItem, {
       as: 'inCart',
-      foreignKey: 'product_id'
+      foreignKey: 'productId'
     });
   }
 

@@ -9,7 +9,7 @@ export default class Stock extends BaseModel {
    */
   static associate(models) {
     this.belongsTo(models.Product, {
-      foreignKey: 'product_id'
+      foreignKey: 'productId'
     });
   }
 

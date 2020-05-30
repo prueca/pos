@@ -14,11 +14,13 @@ export default {
       autoIncrement: true
     },
     orderId: {
-      type: Sequelize.INTEGER
+      type: Sequelize.INTEGER,
+      unique: 'compositeKey'
     },
     productId: {
       type: Sequelize.INTEGER,
-      allowNull: false
+      allowNull: false,
+      unique: 'compositeKey'
     },
     quantity: {
       type: Sequelize.INTEGER,
