@@ -104,8 +104,14 @@ export default class OrderItem extends BaseModel {
       throw errors.INVALID_PARAM;
     }
 
-    await this.update({ quantity: qty }, {
-      where: { itemId }
-    });
+    if (qty < 1) {
+      await this.destroy({
+        where: { itemId }
+      });
+    } else {
+      await this.update({ quantity: qty }, {
+        where: { itemId }
+      });
+    }
   }
 }

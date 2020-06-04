@@ -19,13 +19,18 @@
       </div>
     </div>
     <div class="col">
-      <Btn class="remove-btn" type="button" text="Remove" />
+      <Btn
+        class="remove-btn"
+        type="button"
+        text="Remove"
+        :loading="removing"
+        @onclick="updateQty(0, 'removing')" />
       <Btn
         class="update-btn"
         type="button"
         text="Update"
         :loading="updating"
-        @onclick="updateQty" />
+        @onclick="updateQty(cartItem.quantity)" />
     </div>
   </div>
 </template>
@@ -40,25 +45,26 @@ export default {
   components: { Btn, TextInput },
   props: ['cartItem', 'oid'],
   data: () => ({
-    updating: false
+    updating: false,
+    removing: false
   }),
   methods: {
     qtyChange(evt) {
       this.cartItem.quantity = Number(evt.target.value) > 0 ? evt.target.value : 1;
     },
-    updateQty() {
-      this.updating = true;
+    updateQty(qty, op = 'updating') {
+      this[op] = true;
       this.$axios.$post(urls.UPDATE_QTY, {
         oid: Number(this.oid),
         itemId: Number(this.cartItem.itemId),
-        qty: Number(this.cartItem.quantity)
+        qty: Number(qty)
       })
         .then((res) => {
-          this.updating = false;
+          this[op] = false;
           this.$emit('setOrderData', res.order);
         })
         .catch((err) => {
-          this.updating = false;
+          this[op] = false;
           alert(err.message);
         });
     }
