@@ -68,4 +68,21 @@ export default class IndexController {
       res.error(err);
     }
   }
+
+  /**
+   * Update order item quantity
+   *
+   * @param {Object} req
+   * @param {Object} res
+   */
+  async updateQty(req, res) {
+    try {
+      const { oid, itemId, qty } = req.body;
+      await this.orderItem.updateQty(itemId, qty);
+      const order = await this.order.getOrder(oid);
+      res.json({ order });
+    } catch (err) {
+      res.error(err);
+    }
+  }
 }

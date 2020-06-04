@@ -1,5 +1,6 @@
 import errors from '../configs/errors';
 import BaseModel from './BaseModel';
+import models from './index';
 
 export default class OrderItem extends BaseModel {
   /**
@@ -83,6 +84,28 @@ export default class OrderItem extends BaseModel {
       orderId: oid,
       productId: pid,
       quantity: qty
+    });
+  }
+
+  /**
+   * Update order item quantity
+   *
+   * @param {Number} itemId
+   * @param {Number} qty
+   *
+   * @returns {Promise<OrderItem>}
+   */
+  static async updateQty(itemId, qty) {
+    if (!itemId || qty === undefined || qty === null) {
+      throw errors.MISSING_PARAM;
+    }
+
+    if (typeof itemId !== 'number' || typeof qty !== 'number') {
+      throw errors.INVALID_PARAM;
+    }
+
+    await this.update({ quantity: qty }, {
+      where: { itemId }
     });
   }
 }

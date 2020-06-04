@@ -6,5 +6,6 @@ const router = Router();
 
 router.get('/:oid', controller.getOrder.bind(controller));
 router.post('/add-to-cart', controller.addToCart.bind(controller));
+router.post('/update-qty', controller.updateQty.bind(controller));
 
 export default router;

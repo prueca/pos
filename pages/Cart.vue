@@ -12,7 +12,9 @@
         <CartItem
           v-for="item in orderItems"
           :key="item.itemId"
-          :cart-item="item" />
+          :oid="oid"
+          :cart-item="item"
+          @setOrderData="setOrderData" />
       </div>
     </div>
     <div class="right-panel">
@@ -63,12 +65,14 @@ export default {
     message: 'Empty cart',
     loadingItems: false,
     orderItems: null,
+    oid: null,
     inCart: '---',
     orderId: '---',
     totalCharge: '---'
   }),
   created() {
     const oid = this.$cookies.get('oid');
+    this.oid = oid;
 
     if (!oid) {
       return false;
@@ -86,12 +90,17 @@ export default {
           return;
         }
 
-        this.orderId = res.data.order.orderId;
-        this.orderItems = res.data.order.orderItems;
-        this.inCart = res.data.order.itemCount;
-        this.totalCharge = `P${Number(res.data.order.totalCharge).toFixed(2)}`;
+        this.setOrderData(res.data.order);
       })
       .catch(err => alert(err.message));
+  },
+  methods: {
+    setOrderData(params) {
+      this.orderId = params.orderId;
+      this.orderItems = params.orderItems;
+      this.inCart = params.itemCount;
+      this.totalCharge = `P${Number(params.totalCharge).toFixed(2)}`;
+    }
   }
 };
 </script>
