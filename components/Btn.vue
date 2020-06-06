@@ -3,6 +3,7 @@
     class="btn"
     :form="form"
     :type="type || 'button'"
+    :disabled="disabled"
     @click="$emit('onclick', $event)">
     <span v-if="loading">
       <i class="fas fa-fw fa-spin fa-spinner" />
@@ -16,7 +17,7 @@
 <script>
 export default {
   name: 'Btn',
-  props: ['type', 'text', 'form', 'loading']
+  props: ['type', 'text', 'form', 'loading', 'disabled']
 };
 </script>
 

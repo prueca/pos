@@ -24,12 +24,14 @@
         type="button"
         text="Remove"
         :loading="removing"
+        :disabled="placingOrder"
         @onclick="updateQty(0, 'removing')" />
       <Btn
         class="update-btn"
         type="button"
         text="Update"
         :loading="updating"
+        :disabled="placingOrder"
         @onclick="updateQty(cartItem.quantity)" />
     </div>
   </div>
@@ -43,7 +45,7 @@ import Btn from '~/components/Btn';
 export default {
   name: 'CartItem',
   components: { Btn, TextInput },
-  props: ['cartItem', 'oid'],
+  props: ['cartItem', 'oid', 'placingOrder'],
   data: () => ({
     updating: false,
     removing: false

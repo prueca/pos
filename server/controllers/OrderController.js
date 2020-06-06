@@ -1,4 +1,5 @@
 import models from '../models';
+import errors from '../configs/errors';
 
 export default class IndexController {
   /**
@@ -83,6 +84,21 @@ export default class IndexController {
       res.json({ order });
     } catch (err) {
       res.error(err);
+    }
+  }
+
+  /**
+   * Place order
+   *
+   * @param {Object} req
+   * @param {Object} res
+   */
+  placeOrder(req, res) {
+    try {
+      this.order.updateStatus(req.body.oid, 1);
+      res.clearCookie('oid').end();
+    } catch (err) {
+      errors.error(err);
     }
   }
 }

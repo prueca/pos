@@ -65,7 +65,8 @@ export default class Order extends BaseModel {
         attributes: ['itemId', 'quantity'],
         include: {
           model: models.Product,
-          as: 'product'
+          as: 'product',
+          required: true
         }
       }
     });
@@ -81,5 +82,25 @@ export default class Order extends BaseModel {
     });
 
     return order;
+  }
+
+  /**
+   * Update order status
+   *
+   * @param {Number} oid
+   * @param {Number} status
+   */
+  static async updateStatus(oid, status) {
+    if (!oid || status === null || status === undefined) {
+      throw errors.MISSING_PARAM;
+    }
+
+    if (typeof oid !== 'number' || typeof status !== 'number' || !(status > -1 && status < 2)) {
+      throw errors.INVALID_PARAM;
+    }
+
+    await this.update({ status }, {
+      where: { orderId: oid }
+    });
   }
 }

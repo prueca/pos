@@ -14,6 +14,7 @@
           :key="item.itemId"
           :oid="oid"
           :cart-item="item"
+          :placing-order="placingOrder"
           @setOrderData="setOrderData" />
       </div>
     </div>
@@ -47,7 +48,11 @@
           </div>
         </div>
         <div class="row">
-          <Btn class="checkout-btn" text="Checkout" />
+          <Btn
+            class="place-order-btn"
+            text="Place Order"
+            :loading="placingOrder"
+            @onclick="placeOrder" />
         </div>
       </div>
     </div>
@@ -64,6 +69,7 @@ export default {
   data: () => ({
     message: 'Empty cart',
     loadingItems: false,
+    placingOrder: false,
     orderItems: null,
     oid: null,
     inCart: '---',
@@ -100,6 +106,18 @@ export default {
       this.orderItems = params.orderItems;
       this.inCart = params.itemCount;
       this.totalCharge = `P${Number(params.totalCharge).toFixed(2)}`;
+    },
+    placeOrder() {
+      const oid = this.$cookies.get('oid');
+
+      if (!oid) {
+        return;
+      }
+
+      this.placingOrder = true;
+      this.$axios.$post(urls.PLACE_ORDER, { oid })
+        .then(() => this.$router.push('/'))
+        .catch(err => alert(err.message));
     }
   }
 };
