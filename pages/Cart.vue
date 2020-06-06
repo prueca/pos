@@ -24,7 +24,7 @@
       <div class="order-summary">
         <div class="row clearfix">
           <div class="label float-left">
-            Items in cart
+            Items in Cart
           </div>
           <div class="value float-right">
             {{ inCart }}
@@ -32,7 +32,7 @@
         </div>
         <div class="row clearfix">
           <div class="label float-left">
-            Order ID
+            Order Number
           </div>
           <div class="value float-right">
             {{ orderId }}
@@ -40,7 +40,7 @@
         </div>
         <div class="row clearfix total-charge">
           <div class="label float-left">
-            Total charge
+            Total Charge
           </div>
           <div class="value float-right">
             {{ totalCharge }}
