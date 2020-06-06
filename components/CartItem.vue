@@ -9,9 +9,9 @@
       </div>
     </div>
     <div class="col">
-      <Btn type="button" text="-" />
+      <Btn type="button" text="-" @onclick="decrease" />
       <TextInput :value="cartItem.quantity" text-align="center" @onchange="qtyChange" />
-      <Btn type="button" text="+" />
+      <Btn type="button" text="+" @onclick="increase" />
     </div>
     <div class="col">
       <div class="item-total">
@@ -51,6 +51,14 @@ export default {
   methods: {
     qtyChange(evt) {
       this.cartItem.quantity = Number(evt.target.value) > 0 ? evt.target.value : 1;
+    },
+    increase() {
+      this.cartItem.quantity += 1;
+    },
+    decrease() {
+      if (this.cartItem.quantity - 1 > 0) {
+        this.cartItem.quantity -= 1;
+      }
     },
     updateQty(qty, op = 'updating') {
       this[op] = true;
