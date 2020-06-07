@@ -104,10 +104,28 @@ export default class IndexController {
    */
   async placeOrder(req, res) {
     try {
-      await this.order.updateStatus(req.body.oid, 1);
+      const { oid, items } = req.body;
+      const insufficient = [];
+
+      for (let i = 0; i < items.length; i++) {
+        const { name, pid, qty } = items[i];
+        const isSufficient = await this.stock.isSufficient(pid, qty);
+
+        if (!isSufficient) {
+          insufficient.push(name);
+        }
+      }
+
+      if (insufficient.length > 0) {
+        res.json({ message: `Insufficient stock for item/s ${insufficient.join(', ')}` });
+        return;
+      }
+
+      await this.order.updateStatus(oid, 1);
       res.clearCookie('oid').end();
+
     } catch (err) {
-      errors.error(err);
+      res.error(err);
     }
   }
 }

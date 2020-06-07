@@ -62,4 +62,25 @@ export default class Stock extends BaseModel {
 
     return stock.stock;
   }
+
+  /**
+   * Check if stock is sufficient
+   *
+   * @param {Number} pid
+   * @param {Number} qty
+   *
+   * @returns {Promise<Boolean>}
+   */
+  static async isSufficient(pid, qty) {
+    if (!pid || qty === null || qty === undefined) {
+      throw errors.MISSING_PARAM;
+    }
+
+    if (typeof pid !== 'number' || typeof qty !== 'number') {
+      throw errors.INVALID_PARAM;
+    }
+
+    const stock = await this.getStock(pid);
+    return stock >= qty;
+  }
 }

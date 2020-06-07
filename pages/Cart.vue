@@ -115,9 +115,25 @@ export default {
         return;
       }
 
+      const items = this.orderItems.map((item) => {
+        return {
+          name: item.product.name,
+          pid: item.product.productId,
+          qty: item.quantity
+        };
+      });
+
       this.placingOrder = true;
-      this.$axios.$post(urls.PLACE_ORDER, { oid })
-        .then(() => this.$router.push('/'))
+      this.$axios.$post(urls.PLACE_ORDER, { oid, items })
+        .then((res) => {
+          if (res.message) {
+            this.placingOrder = false;
+            alert(res.message);
+            return;
+          }
+
+          this.$router.push('/');
+        })
         .catch(err => alert(err.message));
     },
     emptyCart() {

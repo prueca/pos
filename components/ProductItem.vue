@@ -106,10 +106,6 @@ export default {
         .then((res) => {
           this.loading.checkout = false;
 
-          if (res.error || res.message) {
-            alert(res.error || res.message);
-          }
-
           this.updateInCart({
             cat: this.cat,
             pid: this.pid,
@@ -121,6 +117,11 @@ export default {
             pid: this.pid,
             stock: res.stock
           });
+
+          if (res.error || res.message) {
+            alert(res.error || res.message);
+            return;
+          }
 
           this.$router.push('/cart');
         })
