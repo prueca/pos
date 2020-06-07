@@ -119,7 +119,7 @@ export default {
         return {
           name: item.product.name,
           pid: item.product.productId,
-          qty: item.quantity
+          qty: Number(item.quantity)
         };
       });
 
