@@ -68,11 +68,16 @@ export default {
       this[op] = true;
       this.$axios.$post(urls.UPDATE_QTY, {
         oid: Number(this.oid),
-        itemId: Number(this.cartItem.itemId),
+        pid: Number(this.cartItem.product.productId),
         qty: Number(qty)
       })
         .then((res) => {
           this[op] = false;
+
+          if (res.message) {
+            alert(res.message);
+            return;
+          }
 
           if (!res.order || res.order.orderItems.length < 1) {
             this.$emit('emptyCart');

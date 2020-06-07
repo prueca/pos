@@ -90,27 +90,34 @@ export default class OrderItem extends BaseModel {
   /**
    * Update order item quantity
    *
-   * @param {Number} itemId
+   * @param {Number} oid
+   * @param {Number} pid
    * @param {Number} qty
    *
    * @returns {Promise<OrderItem>}
    */
-  static async updateQty(itemId, qty) {
-    if (!itemId || qty === undefined || qty === null) {
+  static async updateQty(oid, pid, qty) {
+    if (!oid || !pid || qty === undefined || qty === null) {
       throw errors.MISSING_PARAM;
     }
 
-    if (typeof itemId !== 'number' || typeof qty !== 'number') {
+    if (typeof oid !== 'number' || typeof pid !== 'number' || typeof qty !== 'number') {
       throw errors.INVALID_PARAM;
     }
 
     if (qty < 1) {
       await this.destroy({
-        where: { itemId }
+        where: {
+          orderId: oid,
+          productId: pid
+        }
       });
     } else {
       await this.update({ quantity: qty }, {
-        where: { itemId }
+        where: {
+          orderId: oid,
+          productId: pid
+        }
       });
     }
   }
