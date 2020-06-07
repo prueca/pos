@@ -1,5 +1,6 @@
 import models from '../models';
 import errors from '../configs/errors';
+import { cookieMaxAge } from '../configs/app';
 
 export default class IndexController {
   /**
@@ -44,9 +45,7 @@ export default class IndexController {
       oid = newOrder.orderId;
 
       await this.orderItem.addItem(oid, pid, qty);
-      const maxAge = 1000 * 60 * 60 * 8; // 8h
-
-      res.cookie('oid', oid, { maxAge })
+      res.cookie('oid', oid, { cookieMaxAge })
         .json({ stock, inCart: totalQty });
 
     } catch (err) {
@@ -81,6 +80,16 @@ export default class IndexController {
       const { oid, itemId, qty } = req.body;
       await this.orderItem.updateQty(itemId, qty);
       const order = await this.order.getOrder(oid);
+
+      if (order && order.orderItems.length < 1) {
+        res.clearCookie('oid');
+        await this.order.destroy({
+          where: { orderId: oid }
+        });
+      } else {
+        res.cookie('oid', oid, { cookieMaxAge });
+      }
+
       res.json({ order });
     } catch (err) {
       res.error(err);
@@ -93,9 +102,9 @@ export default class IndexController {
    * @param {Object} req
    * @param {Object} res
    */
-  placeOrder(req, res) {
+  async placeOrder(req, res) {
     try {
-      this.order.updateStatus(req.body.oid, 1);
+      await this.order.updateStatus(req.body.oid, 1);
       res.clearCookie('oid').end();
     } catch (err) {
       errors.error(err);

@@ -71,15 +71,17 @@ export default class Order extends BaseModel {
       }
     });
 
-    order = order.toJSON();
-    order.itemCount = 0;
-    order.totalCharge = 0;
-    order.orderItems = order.orderItems.map((item) => {
-      const itemTotal = item.product.price * item.quantity;
-      order.totalCharge += itemTotal;
-      order.itemCount += item.quantity;
-      return { ...item, itemTotal };
-    });
+    if (order) {
+      order = order.toJSON();
+      order.itemCount = 0;
+      order.totalCharge = 0;
+      order.orderItems = order.orderItems.map((item) => {
+        const itemTotal = item.product.price * item.quantity;
+        order.totalCharge += itemTotal;
+        order.itemCount += item.quantity;
+        return { ...item, itemTotal };
+      });
+    }
 
     return order;
   }

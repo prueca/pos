@@ -52,7 +52,9 @@ export default {
   }),
   methods: {
     qtyChange(evt) {
-      this.cartItem.quantity = Number(evt.target.value) > 0 ? evt.target.value : 1;
+      const val = Number(evt.target.value) > 0 ? evt.target.value : 1;
+      this.cartItem.quantity = val;
+      evt.target.value = val;
     },
     increase() {
       this.cartItem.quantity += 1;
@@ -71,6 +73,12 @@ export default {
       })
         .then((res) => {
           this[op] = false;
+
+          if (!res.order || res.order.orderItems.length < 1) {
+            this.$emit('emptyCart');
+            return;
+          }
+
           this.$emit('setOrderData', res.order);
         })
         .catch((err) => {

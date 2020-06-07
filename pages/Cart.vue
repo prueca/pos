@@ -15,6 +15,7 @@
           :oid="oid"
           :cart-item="item"
           :placing-order="placingOrder"
+          @emptyCart="emptyCart"
           @setOrderData="setOrderData" />
       </div>
     </div>
@@ -118,6 +119,14 @@ export default {
       this.$axios.$post(urls.PLACE_ORDER, { oid })
         .then(() => this.$router.push('/'))
         .catch(err => alert(err.message));
+    },
+    emptyCart() {
+      this.oid = null;
+      this.orderItems = null;
+      this.message = 'Empty cart';
+      this.inCart = '---';
+      this.orderId = '---';
+      this.totalCharge = '---';
     }
   }
 };
