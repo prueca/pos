@@ -1,5 +1,4 @@
 import models from '../models';
-import errors from '../configs/errors';
 import { cookieMaxAge } from '../configs/app';
 
 export default class IndexController {
