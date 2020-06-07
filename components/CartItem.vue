@@ -10,7 +10,7 @@
     </div>
     <div class="col">
       <Btn type="button" text="-" @onclick="decrease" />
-      <TextInput :value="cartItem.quantity" text-align="center" @onchange="qtyChange" />
+      <TextInput v-model="cartItem.quantity" text-align="center" @onchange="qtyChange" />
       <Btn type="button" text="+" @onclick="increase" />
     </div>
     <div class="col">
@@ -52,9 +52,7 @@ export default {
   }),
   methods: {
     qtyChange(evt) {
-      const val = Number(evt.target.value) > 0 ? evt.target.value : 1;
-      this.cartItem.quantity = val;
-      evt.target.value = val;
+      this.cartItem.quantity = Number(evt.target.value) > 0 ? evt.target.value : 1;
     },
     increase() {
       this.cartItem.quantity += 1;
