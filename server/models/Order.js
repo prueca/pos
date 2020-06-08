@@ -66,7 +66,11 @@ export default class Order extends BaseModel {
         include: {
           model: models.Product,
           as: 'product',
-          required: true
+          required: true,
+          include: {
+            as: 'stock',
+            model: models.Stock
+          }
         }
       }
     });
@@ -77,8 +81,10 @@ export default class Order extends BaseModel {
       order.totalCharge = 0;
       order.orderItems = order.orderItems.map((item) => {
         const itemTotal = item.product.price * item.quantity;
+        const { stock } = item.product.stock.pop();
         order.totalCharge += itemTotal;
         order.itemCount += item.quantity;
+        item.product.stock = stock;
         return { ...item, itemTotal };
       });
     }

@@ -9,9 +9,8 @@
       </div>
     </div>
     <div class="col">
-      <Btn type="button" text="-" @onclick="decrease" />
-      <TextInput :value="cartItem.quantity" text-align="center" @onchange="qtyChange" />
-      <Btn type="button" text="+" @onclick="increase" />
+      <input v-model="cartItem.quantity" class="qty" type="number" min="1">
+      <span>/ {{ cartItem.product.stock }}</span>
     </div>
     <div class="col">
       <div class="item-total">
@@ -39,12 +38,11 @@
 
 <script>
 import urls from '../configs/urls';
-import TextInput from '~/components/TextInput';
 import Btn from '~/components/Btn';
 
 export default {
   name: 'CartItem',
-  components: { Btn, TextInput },
+  components: { Btn },
   props: ['cartItem', 'oid', 'placingOrder'],
   data: () => ({
     updating: false,
@@ -52,9 +50,7 @@ export default {
   }),
   methods: {
     qtyChange(evt) {
-      const val = Number(evt.target.value) > 0 ? evt.target.value : 1;
-      this.cartItem.quantity = val;
-      evt.target.value = val;
+      this.cartItem.quantity = Number(evt.target.value) > 0 ? evt.target.value : 1;
     },
     increase() {
       this.cartItem.quantity += 1;
