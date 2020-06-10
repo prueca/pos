@@ -127,6 +127,12 @@ export default class IndexController {
         return;
       }
 
+      for (let i = 0; i < items.length; i++) {
+        const { pid, qty } = items[i];
+        const stock = await this.stock.getStock(pid);
+        await this.stock.updateStock(pid, (stock - qty));
+      }
+
       await this.order.updateStatus(oid, 1);
       res.clearCookie('oid').end();
 
