@@ -1,4 +1,6 @@
+import { Op } from 'sequelize';
 import errors from '../configs/errors';
+import { formatDate } from '../library/helper';
 import BaseModel from './BaseModel';
 import models from './index';
 
@@ -110,5 +112,54 @@ export default class Order extends BaseModel {
     await this.update({ status }, {
       where: { orderId: oid }
     });
+  }
+
+  /**
+   * Get orders
+   */
+  static async getOrders() {
+    let orders = await this.findAll({
+      where: {
+        status: {
+          [Op.ne]: 0
+        }
+      },
+      include: {
+        model: models.OrderItem,
+        as: 'orderItems',
+        attributes: ['itemId', 'quantity'],
+        required: true,
+        include: {
+          model: models.Product,
+          as: 'product',
+          required: true
+        }
+      }
+    });
+
+    if (!orders || (Array.isArray(orders) && orders.length < 1)) {
+      return null;
+    }
+
+    orders = orders.map((row) => {
+      const { orderId, orderItems, date } = row.toJSON();
+
+      const totalQty = orderItems.reduce((accumulator, item) => {
+        return accumulator + item.quantity;
+      }, 0);
+
+      const totalCharge = orderItems.reduce((accumulator, item) => {
+        return accumulator + (item.product.price * item.quantity);
+      }, 0);
+
+      return {
+        orderId: String(orderId),
+        totalQty: String(totalQty),
+        totalCharge: `P${totalCharge.toFixed(2)}`,
+        date: formatDate(date)
+      };
+    });
+
+    return orders;
   }
 }

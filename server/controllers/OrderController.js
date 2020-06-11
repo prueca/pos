@@ -60,9 +60,16 @@ export default class IndexController {
    */
   async getOrder(req, res) {
     try {
-      const oid = Number(req.params.oid);
-      const order = await this.order.getOrder(oid);
-      res.json({ order });
+      const { oid } = req.params;
+
+      if (oid) {
+        const order = await this.order.getOrder(Number(oid));
+        return res.json({ order });
+      }
+
+      const orders = await this.order.getOrders();
+      res.json({ orders });
+
     } catch (err) {
       res.error(err);
     }

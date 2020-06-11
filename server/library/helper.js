@@ -26,3 +26,50 @@ export const groupBy = (arr, key) => {
     return objectsByKeyValue;
   }, {});
 };
+
+/**
+ * Date formatter
+ *
+ * @param {String} str
+ *
+ * @returns {String}
+ */
+export const formatDate = (str) => {
+  const dayMapping = [
+    'Sun',
+    'Mon',
+    'Tue',
+    'Wed',
+    'Thu',
+    'Fri',
+    'Sat'
+  ];
+
+  const monthMapping = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec'
+  ];
+
+  const dateObj = new Date(str);
+  const day = dayMapping[dateObj.getDay()];
+  const month = monthMapping[dateObj.getMonth()];
+  const date = dateObj.getDate();
+  const year = dateObj.getFullYear();
+  const time = dateObj.toLocaleString('en-US', {
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true
+  });
+
+  return `${day} ${month} ${date} ${year} ${time}`;
+};

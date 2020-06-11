@@ -4,7 +4,8 @@ export default {
   opt: {
     engine: 'MYISAM',
     underscored: true,
-    timestamps: false,
+    createdAt: false,
+    updatedAt: 'date',
     tableName: 'Orders'
   },
   attr: {

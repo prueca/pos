@@ -1,6 +1,5 @@
 import errors from '../configs/errors';
 import BaseModel from './BaseModel';
-import models from './index';
 
 export default class OrderItem extends BaseModel {
   /**
