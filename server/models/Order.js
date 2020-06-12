@@ -120,7 +120,7 @@ export default class Order extends BaseModel {
    * @param {Object} filterParams
    */
   static async getOrders(filterParams) {
-    const { orderId, fromDate, toDate } = filterParams;
+    const { orderId, fromDate, toDate, page, perPage } = filterParams;
     const filter = {};
     const date = {};
 
@@ -156,7 +156,13 @@ export default class Order extends BaseModel {
           as: 'product',
           required: true
         }
-      }
+      },
+      order: [
+        ['orderId', 'DESC']
+      ],
+      limit: perPage,
+      offset: (page - 1) * perPage,
+      subQuery: false
     });
 
     if (!rows || (Array.isArray(rows) && rows.length < 1)) {
