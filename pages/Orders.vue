@@ -1,46 +1,50 @@
 <template>
   <div class="container">
-    <h3>
-      Recent Orders
-    </h3>
-    <div class="order-listing">
-      <vue-good-table
-        mode="remote"
-        :is-loading.sync="isLoading"
-        :columns="columns"
-        :rows="rows"
-        :pagination-options="{
-          enabled: true,
-          mode: 'pages',
-          setCurrentPage: serverParams.page
-        }"
-        :search-options="{
-          enabled: true,
-          externalQuery: serverParams.orderId
-        }"
-        :total-rows="totalRecords"
-        @on-page-change="onPageChange"
-        @on-sort-change="onSortChange"
-        @on-per-page-change="onPerPageChange">
-        <div slot="table-actions">
-          <input
-            v-model="serverParams.orderId"
-            type="text"
-            class="order-id"
-            placeholder="Search order ID">
-          <input
-            v-model="serverParams.fromDate"
-            type="date"
-            class="date">
-          <input
-            v-model="serverParams.toDate"
-            type="date"
-            class="date">
-          <Btn class="filter-btn" text="Filter Orders" @onclick="loadItems" />
-          <Btn class="reload-btn" text="Reload Table" @onclick="reloadTable" />
-        </div>
-      </vue-good-table>
-    </div>
+    <vue-good-table
+      mode="remote"
+      :is-loading.sync="isLoading"
+      :columns="columns"
+      :rows="rows"
+      :pagination-options="{
+        enabled: true,
+        mode: 'pages',
+        setCurrentPage: serverParams.page
+      }"
+      :search-options="{
+        enabled: true,
+        externalQuery: serverParams.orderId
+      }"
+      :total-rows="totalRecords"
+      @on-page-change="onPageChange"
+      @on-per-page-change="onPerPageChange">
+      <template slot="table-row" slot-scope="props">
+        <span v-if="props.column.field == 'orderId'">
+          <nuxt-link :to="`/order/${props.formattedRow[props.column.field]}`">
+            {{ props.formattedRow[props.column.field] }}
+          </nuxt-link>
+        </span>
+        <span v-else>
+          {{ props.formattedRow[props.column.field] }}
+        </span>
+      </template>
+      <div slot="table-actions">
+        <input
+          v-model="serverParams.orderId"
+          type="text"
+          class="order-id"
+          placeholder="Search order ID">
+        <input
+          v-model="serverParams.fromDate"
+          type="date"
+          class="date">
+        <input
+          v-model="serverParams.toDate"
+          type="date"
+          class="date">
+        <Btn class="filter-btn" text="Filter Orders" @onclick="loadItems" />
+        <Btn class="reload-btn" text="Reload Table" @onclick="reloadTable" />
+      </div>
+    </vue-good-table>
   </div>
 </template>
 
@@ -81,15 +85,6 @@ export default {
     },
     onPerPageChange(params) {
       this.updateParams({ perPage: params.currentPerPage });
-      this.loadItems();
-    },
-    onSortChange(params) {
-      this.updateParams({
-        sort: [{
-          type: params[0].type,
-          field: params[0].field
-        }]
-      });
       this.loadItems();
     },
     loadItems() {

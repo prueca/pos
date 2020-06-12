@@ -5,11 +5,6 @@ export default [
     sortable: false
   },
   {
-    label: 'Date Placed',
-    field: 'date',
-    sortable: false
-  },
-  {
     label: 'Total Quantity',
     field: 'totalQty',
     sortable: false
@@ -17,6 +12,11 @@ export default [
   {
     label: 'Total Charge',
     field: 'totalCharge',
+    sortable: false
+  },
+  {
+    label: 'Date Placed',
+    field: 'date',
     sortable: false
   }
 ];
