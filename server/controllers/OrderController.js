@@ -67,8 +67,8 @@ export default class IndexController {
         return res.json({ order });
       }
 
-      const orders = await this.order.getOrders();
-      res.json({ orders });
+      const result = await this.order.getOrders();
+      res.json(result);
 
     } catch (err) {
       res.error(err);

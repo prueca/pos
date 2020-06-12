@@ -118,7 +118,7 @@ export default class Order extends BaseModel {
    * Get orders
    */
   static async getOrders() {
-    let orders = await this.findAll({
+    const { rows, count } = await this.findAndCountAll({
       where: {
         status: {
           [Op.ne]: 0
@@ -137,11 +137,11 @@ export default class Order extends BaseModel {
       }
     });
 
-    if (!orders || (Array.isArray(orders) && orders.length < 1)) {
+    if (!rows || (Array.isArray(rows) && rows.length < 1)) {
       return null;
     }
 
-    orders = orders.map((row) => {
+    const orders = rows.map((row) => {
       const { orderId, orderItems, date } = row.toJSON();
 
       const totalQty = orderItems.reduce((accumulator, item) => {
@@ -160,6 +160,6 @@ export default class Order extends BaseModel {
       };
     });
 
-    return orders;
+    return { orders, totalRecords: count };
   }
 }
