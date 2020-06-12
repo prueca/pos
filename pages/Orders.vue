@@ -11,6 +11,8 @@
         :rows="rows"
         :pagination-options="{
           enabled: true,
+          mode: 'pages',
+          setCurrentPage: serverParams.page
         }"
         :search-options="{
           enabled: true,
@@ -106,6 +108,7 @@ export default {
         });
     },
     reloadTable() {
+      this.currentPage = 1;
       this.updateParams({
         page: 1,
         perPage: 10,
