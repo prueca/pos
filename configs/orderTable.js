@@ -1,18 +1,22 @@
 export default [
   {
     label: 'Order Number',
-    field: 'orderId'
+    field: 'orderId',
+    sortable: false
   },
   {
     label: 'Date Placed',
-    field: 'date'
+    field: 'date',
+    sortable: false
   },
   {
     label: 'Total Quantity',
-    field: 'totalQty'
+    field: 'totalQty',
+    sortable: false
   },
   {
     label: 'Total Charge',
-    field: 'totalCharge'
+    field: 'totalCharge',
+    sortable: false
   }
 ];
