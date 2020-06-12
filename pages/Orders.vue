@@ -12,13 +12,30 @@
         :pagination-options="{
           enabled: true,
         }"
+        :search-options="{
+          enabled: true,
+          externalQuery: serverParams.orderId
+        }"
         :total-rows="totalRecords"
         @on-page-change="onPageChange"
         @on-sort-change="onSortChange"
-        @on-column-filter="onColumnFilter"
         @on-per-page-change="onPerPageChange">
         <div slot="table-actions">
-          <Btn class="reload-btn" text="Reload Table" />
+          <input
+            v-model="serverParams.orderId"
+            type="text"
+            class="order-id"
+            placeholder="Search order ID">
+          <input
+            v-model="serverParams.fromDate"
+            type="date"
+            class="date">
+          <input
+            v-model="serverParams.toDate"
+            type="date"
+            class="date">
+          <Btn class="filter-btn" text="Filter Orders" @onclick="loadItems" />
+          <Btn class="reload-btn" text="Reload Table" @onclick="reloadTable" />
         </div>
       </vue-good-table>
     </div>
@@ -41,8 +58,9 @@ export default {
       totalRecords: 0,
       isLoading: true,
       serverParams: {
-        columnFilters: {
-        },
+        orderId: '',
+        fromDate: '',
+        toDate: '',
         page: 1,
         perPage: 10
       }
@@ -72,17 +90,30 @@ export default {
       });
       this.loadItems();
     },
-    onColumnFilter(params) {
-      this.updateParams(params);
-      this.loadItems();
-    },
     loadItems() {
+      this.isLoading = true;
       this.$axios.$get(urls.GET_ORDER, { params: this.serverParams })
-        .then((res) => {
-          this.totalRecords = res.totalRecords;
-          this.rows = res.orders || [];
+        .then(({ totalRecords, orders }) => {
+          this.isLoading = false;
+          this.totalRecords = totalRecords || 0;
+          this.rows = orders || [];
         })
-        .catch(err => console.log(err.message));
+        .catch((err) => {
+          this.isLoading = false;
+          this.totalRecords = 0;
+          this.rows = [];
+          console.log(err.message);
+        });
+    },
+    reloadTable() {
+      this.updateParams({
+        page: 1,
+        perPage: 10,
+        fromDate: '',
+        toDate: '',
+        orderId: ''
+      });
+      this.loadItems();
     }
   }
 };

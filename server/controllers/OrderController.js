@@ -67,7 +67,13 @@ export default class IndexController {
         return res.json({ order });
       }
 
-      const result = await this.order.getOrders();
+      const filterParams = {
+        orderId: req.query.orderId,
+        fromDate: req.query.fromDate,
+        toDate: req.query.toDate
+      };
+
+      const result = await this.order.getOrders(filterParams);
       res.json(result);
 
     } catch (err) {

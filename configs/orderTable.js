@@ -1,19 +1,11 @@
 export default [
   {
     label: 'Order Number',
-    field: 'orderId',
-    filterOptions: {
-      enabled: true,
-      placeholder: 'Filter order number'
-    }
+    field: 'orderId'
   },
   {
     label: 'Date Placed',
-    field: 'date',
-    filterOptions: {
-      enabled: true,
-      placeholder: 'Filter date'
-    }
+    field: 'date'
   },
   {
     label: 'Total Quantity',

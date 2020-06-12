@@ -116,14 +116,36 @@ export default class Order extends BaseModel {
 
   /**
    * Get orders
+   *
+   * @param {Object} filterParams
    */
-  static async getOrders() {
+  static async getOrders(filterParams) {
+    const { orderId, fromDate, toDate } = filterParams;
+    const filter = {};
+    const date = {};
+
+    if (orderId) {
+      filter.orderId = orderId;
+    }
+
+    if (fromDate) {
+      date[Op.gte] = fromDate;
+      filter.date = date;
+    }
+
+    if (toDate) {
+      date[Op.lt] = toDate;
+      filter.date = date;
+    }
+
+    const where = {
+      status: {
+        [Op.ne]: 0
+      }
+    };
+
     const { rows, count } = await this.findAndCountAll({
-      where: {
-        status: {
-          [Op.ne]: 0
-        }
-      },
+      where: Object.assign(where, filter),
       include: {
         model: models.OrderItem,
         as: 'orderItems',
