@@ -53,7 +53,7 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    baseURL: 'https://floating-dawn-32865.herokuapp.com'
+    baseURL: process.env.BASE_URL
   },
   /*
   ** Build configuration
@@ -66,6 +66,6 @@ export default {
     }
   },
   serverMiddleware: [
-    '/api'
+    { path: '/api', handler: '~/api/index.js' }
   ]
 };
