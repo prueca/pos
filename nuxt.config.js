@@ -53,6 +53,7 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
+    baseURL: 'https://arcane-tundra-36289.herokuapp.com'
   },
   /*
   ** Build configuration
@@ -63,5 +64,8 @@ export default {
     */
     extend (config, ctx) {
     }
-  }
+  },
+  serverMiddleware: [
+    { path: '/api', handler: '~/server/index.js' }
+  ]
 };
