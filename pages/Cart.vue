@@ -103,10 +103,12 @@ export default {
   },
   methods: {
     setOrderData(params) {
-      this.orderId = params.orderId;
-      this.orderItems = params.orderItems;
-      this.inCart = params.itemCount;
-      this.totalCharge = `P${Number(params.totalCharge).toFixed(2)}`;
+      if (params) {
+        this.orderId = params.orderId;
+        this.orderItems = params.orderItems;
+        this.inCart = params.itemCount;
+        this.totalCharge = `P${Number(params.totalCharge).toFixed(2)}`;
+      }
     },
     placeOrder() {
       const oid = this.$cookies.get('oid');

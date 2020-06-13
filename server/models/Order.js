@@ -157,9 +157,8 @@ export default class Order extends BaseModel {
           required: true
         }
       },
-      order: [
-        ['orderId', 'DESC']
-      ],
+      group: ['orderId'],
+      order: [['orderId', 'DESC']],
       limit: perPage,
       offset: (page - 1) * perPage,
       subQuery: false

@@ -1,0 +1,26 @@
+.order-item
+  display: flex
+  margin-bottom: 32px
+  padding-bottom: 32px
+  border-bottom: thin solid #ccc
+  flex-wrap: wrap
+
+  &:last-child
+    margin-bottom: 0
+    padding-bottom: 0
+    border-bottom: none
+
+  .col
+    width: 20%
+    text-align: center
+
+    &:first-child
+      width: 40%
+      text-align: left
+
+  .name
+    margin-bottom: 2px
+    font-weight: bold
+
+  .item-total, .qty
+    margin-top: 8px
