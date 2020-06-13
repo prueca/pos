@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <vue-good-table
+      class="order-listing"
       mode="remote"
       :is-loading.sync="isLoading"
       :columns="columns"
