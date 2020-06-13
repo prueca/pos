@@ -1,4 +1,4 @@
-import { Op } from 'sequelize';
+import Sequelize, { Op } from 'sequelize';
 import errors from '../configs/errors';
 import { formatDate } from '../library/helper';
 import BaseModel from './BaseModel';
@@ -144,7 +144,19 @@ export default class Order extends BaseModel {
       }
     };
 
-    const { rows, count } = await this.findAndCountAll({
+    let totalRecords = await this.findAll({
+      where,
+      attributes: [[Sequelize.fn('COUNT', Sequelize.col('status')), 'count']]
+    });
+
+    totalRecords = totalRecords[0].toJSON();
+    totalRecords = totalRecords.count;
+
+    if (totalRecords < 1) {
+      return null;
+    }
+
+    const rows = await this.findAll({
       where: Object.assign(where, filter),
       include: {
         model: models.OrderItem,
@@ -163,10 +175,6 @@ export default class Order extends BaseModel {
       offset: (page - 1) * perPage,
       subQuery: false
     });
-
-    if (!rows || (Array.isArray(rows) && rows.length < 1)) {
-      return null;
-    }
 
     const orders = rows.map((row) => {
       const { orderId, orderItems, date } = row.toJSON();
@@ -187,6 +195,6 @@ export default class Order extends BaseModel {
       };
     });
 
-    return { orders, totalRecords: count };
+    return { orders, totalRecords };
   }
 }
