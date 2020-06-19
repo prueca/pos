@@ -1,0 +1,12 @@
+cd nuxt-app
+npm run build
+npm run start
+
+heroku run bash -a <app>
+heroku logs --tail -a <app>
+
+mysql://bcfc0f80768388:0d4d4716@us-cdbr-east-05.cleardb.net/heroku_6794ced17224118?reconnect=true
+u: bcfc0f80768388
+p: 0d4d4716
+h: us-cdbr-east-05.cleardb.net
+d: heroku_6794ced17224118

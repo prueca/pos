@@ -1,6 +1,6 @@
-import 'dotenv/config';
+require('dotenv').config();
 
-export default {
+module.exports = {
   babelrc: true,
   mode: 'universal',
   /*
@@ -64,8 +64,5 @@ export default {
     */
     extend (config, ctx) {
     }
-  },
-  serverMiddleware: [
-    { path: '/api', handler: '~/api/index.js' }
-  ]
+  }
 };

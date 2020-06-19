@@ -2,8 +2,8 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import { ready } from 'consola';
 import { Nuxt, Builder } from 'nuxt';
-import config from '../nuxt.config.js';
 import apiRouter from './routes/api';
+import config from '~/nuxt.config.js';
 
 const app = express();
 
