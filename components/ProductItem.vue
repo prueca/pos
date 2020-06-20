@@ -16,7 +16,7 @@
     <div class="row clearfix">
       <TextInput
         v-model="qty"
-        text-align="right"
+        text-align="center"
         class="qty float-right"
         @onchange="qtyChange" />
       <Btn
