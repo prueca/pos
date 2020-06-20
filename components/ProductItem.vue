@@ -6,28 +6,22 @@
       </nuxt-link>
     </div>
     <div class="row clearfix">
-      <div class="float-left">
-        In stock: {{ stock }}
-      </div>
       <div class="float-right">
+        {{ inCart }} / {{ stock }}
+      </div>
+      <div class="float-left">
         P{{ Number(price).toFixed(2) }}
       </div>
     </div>
     <div class="row clearfix">
-      <input
+      <TextInput
         v-model="qty"
-        class="float-right qty"
-        type="number"
-        min="1"
-        @change="qtyChange">
-      <div class="float-left">
-        In cart: {{ inCart }}
-      </div>
-    </div>
-    <div class="row">
+        text-align="right"
+        class="qty float-right"
+        @onchange="qtyChange" />
       <Btn
         text="Add To Cart"
-        class="add-to-cart"
+        class="float-left add-to-cart"
         :loading="loading.addToCart"
         @onclick="addToCart" />
     </div>
@@ -37,11 +31,12 @@
 <script>
 import { mapMutations } from 'vuex';
 import Btn from '~/components/Btn';
+import TextInput from '~/components/TextInput';
 import urls from '~/configs/urls';
 
 export default {
   name: 'ProductItem',
-  components: { Btn },
+  components: { Btn, TextInput },
   props: ['pid', 'name', 'price', 'stock', 'cat', 'inCart'],
   data: () => ({
     qty: 1,
@@ -56,7 +51,8 @@ export default {
       'updateInCart'
     ]),
     qtyChange(evt) {
-      this.qty = Number(evt.target.value) > 0 ? evt.target.value : 1;
+      this.qty = /^\d+$/.test(evt.target.value) && Number(evt.target.value) > 0
+        ? evt.target.value : 1;
     },
     addToCart() {
       const oid = this.$cookies.get('oid');
@@ -75,17 +71,21 @@ export default {
             alert(res.error || res.message);
           }
 
-          this.updateInCart({
-            cat: this.cat,
-            pid: this.pid,
-            inCart: res.inCart
-          });
+          if (res.inCart) {
+            this.updateInCart({
+              cat: this.cat,
+              pid: this.pid,
+              inCart: res.inCart
+            });
+          }
 
-          this.updateStock({
-            cat: this.cat,
-            pid: this.pid,
-            stock: res.stock
-          });
+          if (res.stock) {
+            this.updateStock({
+              cat: this.cat,
+              pid: this.pid,
+              stock: res.stock
+            });
+          }
         })
         .catch((err) => {
           this.loading.addToCart = false;
