@@ -3,23 +3,16 @@
 .btn
   display: inline-block
   padding: 8px 12px
-  border-radius: 8px
-  background: #ccc
+  border-radius: 4px
+  background: $color
   border: none
-  border-top: thick solid #ccc
-  border-bottom: medium solid #aaa
   text-align: center
   font-family: $font-family
   font-size: 0.9em
-  color: $font-color
+  color: #fff
   cursor: pointer
   outline: none
 
-  &:active
-    border-top: medium solid #aaa
-    border-bottom: thick solid #ccc
-
+  &:active,
   &:disabled
-    color: #888
-    border-top: thick solid #ccc
-    border-bottom: medium solid #aaa
+    color: $color2

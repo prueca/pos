@@ -20,7 +20,9 @@
       @on-per-page-change="onPerPageChange">
       <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field == 'orderId'">
-          <nuxt-link :to="`/orders/${props.formattedRow[props.column.field]}`">
+          <nuxt-link
+            class="order-id"
+            :to="`/orders/${props.formattedRow[props.column.field]}`">
             {{ props.formattedRow[props.column.field] }}
           </nuxt-link>
         </span>
@@ -32,7 +34,7 @@
         <input
           v-model="serverParams.orderId"
           type="text"
-          class="order-id"
+          class="order-id-field"
           placeholder="Search order ID">
         <input
           v-model="serverParams.fromDate"

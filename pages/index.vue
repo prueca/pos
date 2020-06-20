@@ -26,7 +26,7 @@
             Product Listing
           </h3>
           <Btn
-            text="Add New Product"
+            text="Add Product"
             class="new-product"
             @onclick="toggleProductForm" />
         </div>
