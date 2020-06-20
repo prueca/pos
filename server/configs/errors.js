@@ -3,7 +3,7 @@ import HttpStatus from 'http-status-codes';
 export default {
   UNKNOWN_ERROR: {
     code: '000',
-    message: 'Unkown error',
+    message: 'Unknown error',
     status: HttpStatus.CON
   },
   CONNECTION_REFUSED: {

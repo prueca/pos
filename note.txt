@@ -10,3 +10,6 @@ u: bcfc0f80768388
 p: 0d4d4716
 h: us-cdbr-east-05.cleardb.net
 d: heroku_6794ced17224118
+
+connect to db via cli
+mysql -ubcfc0f80768388 -p0d4d4716 -hus-cdbr-east-05.cleardb.net heroku_6794ced17224118
