@@ -1,7 +1,9 @@
 <template>
   <div class="item">
     <div class="row clearfix name">
-      {{ name }}
+      <nuxt-link :to="`/products/${pid}`">
+        {{ name }}
+      </nuxt-link>
     </div>
     <div class="row clearfix">
       <div class="float-left">
@@ -22,13 +24,10 @@
         In cart: {{ inCart }}
       </div>
     </div>
-    <div class="row btn-grp">
-      <Btn
-        text="Checkout"
-        :loading="loading.checkout"
-        @onclick="checkout" />
+    <div class="row">
       <Btn
         text="Add To Cart"
+        class="add-to-cart"
         :loading="loading.addToCart"
         @onclick="addToCart" />
     </div>
@@ -90,43 +89,6 @@ export default {
         })
         .catch((err) => {
           this.loading.addToCart = false;
-          alert(err.message);
-        });
-    },
-    checkout() {
-      const oid = this.$cookies.get('oid');
-      const data = {
-        oid: oid || null,
-        pid: this.pid,
-        qty: Number(this.qty)
-      };
-
-      this.loading.checkout = true;
-      this.$axios.$post(urls.ADD_TO_CART, data)
-        .then((res) => {
-          this.loading.checkout = false;
-
-          this.updateInCart({
-            cat: this.cat,
-            pid: this.pid,
-            inCart: res.inCart
-          });
-
-          this.updateStock({
-            cat: this.cat,
-            pid: this.pid,
-            stock: res.stock
-          });
-
-          if (res.error || res.message) {
-            alert(res.error || res.message);
-            return;
-          }
-
-          this.$router.push('/cart');
-        })
-        .catch((err) => {
-          this.loading.checkout = false;
           alert(err.message);
         });
     }

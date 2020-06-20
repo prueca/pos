@@ -20,7 +20,7 @@
       @on-per-page-change="onPerPageChange">
       <template slot="table-row" slot-scope="props">
         <span v-if="props.column.field == 'orderId'">
-          <nuxt-link :to="`/order/${props.formattedRow[props.column.field]}`">
+          <nuxt-link :to="`/orders/${props.formattedRow[props.column.field]}`">
             {{ props.formattedRow[props.column.field] }}
           </nuxt-link>
         </span>
