@@ -5,7 +5,7 @@
   "author": "Peter John Rueca",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon --require @babel/register server/index.js --watch server",
+    "dev": "cross-env NODE_ENV=development nodemon -r dotenv/config -r @babel/register server/index.js --watch server",
     "build": "nuxt build && babel server -d dist --copy-files",
     "start": "cross-env NODE_ENV=production node dist/index.js",
     "generate": "nuxt generate",
