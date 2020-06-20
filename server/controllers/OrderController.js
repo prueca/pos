@@ -84,10 +84,10 @@ export default class IndexController {
   async updateQty(req, res) {
     try {
       const { oid, pid, qty } = req.body;
-      const isSufficient = await this.stock.isSufficient(pid, qty);
+      const stock = await this.getStock(pid);
 
-      if (!isSufficient) {
-        res.json({ message: 'Insufficient stock' });
+      if (stock < qty) {
+        res.json({ stock, message: 'Insufficient stock' });
         return;
       }
 

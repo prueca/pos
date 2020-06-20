@@ -67,10 +67,6 @@ export default {
         .then((res) => {
           this.loading.addToCart = false;
 
-          if (res.error || res.message) {
-            alert(res.error || res.message);
-          }
-
           if (res.inCart) {
             this.updateInCart({
               cat: this.cat,
@@ -85,6 +81,10 @@ export default {
               pid: this.pid,
               stock: res.stock
             });
+          }
+
+          if (res.error || res.message) {
+            alert(res.error || res.message);
           }
         })
         .catch((err) => {
