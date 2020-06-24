@@ -11,7 +11,7 @@
             Price
           </div>
           <div class="float-left">
-            {{ details.price }}
+            P{{ Number(details.price).toFixed(2) }}
           </div>
         </div>
         <div class="row clearfix">
@@ -36,7 +36,7 @@
         <h3>
           Update Details
         </h3>
-        <form>
+        <form @submit.prevent="updateProduct">
           <TextInput
             v-model="updates.name"
             icon="fas fa-fw fa-file-signature" />
@@ -61,7 +61,7 @@
             class="new-cat"
             icon="fas fa-fw fa-tag"
             placeholder="Enter category" />
-          <Btn text="Update Item" />
+          <Btn text="Update Item" type="submit" :loading="updatingProduct" />
         </form>
       </div>
       <div class="compute-sales">
@@ -138,6 +138,7 @@ export default {
       },
       categories: null,
       showCatTxtInput: false,
+      updatingProduct: false,
       totalSales: '----.--'
     };
   },
@@ -162,6 +163,19 @@ export default {
       }
 
       evt.target.value = value;
+    },
+    updateProduct() {
+      this.updatingProduct = true;
+      this.$axios.$post(urls.UPDATE_PRODUCT, this.updates)
+        .then((res) => {
+          if (res.success) {
+            this.details = { ...this.updates };
+          }
+        })
+        .catch(err => alert(err.message))
+        .finally(() => {
+          this.updatingProduct = false;
+        });
     }
   }
 };

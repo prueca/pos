@@ -8,5 +8,6 @@ router.get('/ping', controller.ping.bind(controller));
 router.get('/get-categories', controller.getCategories.bind(controller));
 router.get('/:pid?', controller.getProducts.bind(controller));
 router.post('/new-product', controller.newProduct.bind(controller));
+router.post('/update-details', controller.updateDetails.bind(controller));
 
 export default router;

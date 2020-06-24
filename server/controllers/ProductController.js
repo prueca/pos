@@ -6,6 +6,7 @@ export default class IndexController {
    */
   constructor() {
     this.product = models.Product;
+    this.stock = models.Stock;
   }
 
   /**
@@ -64,6 +65,28 @@ export default class IndexController {
       res.json({ categories });
     } catch (err) {
       res.error(err);
+    }
+  }
+
+  /**
+   * Update product details
+   *
+   * @param {Object} req
+   * @param {Object} res
+   */
+  async updateDetails(req, res) {
+    try {
+      const params = req.body;
+      await this.product.updateDetails(params);
+      const currStock = await this.stock.getStock(params.pid);
+
+      if (currStock !== params.stock) {
+        await this.stock.updateStock(params.pid, params.stock);
+      }
+
+      res.json({ success: true });
+    } catch (err) {
+      res.err(err);
     }
   }
 }

@@ -5,5 +5,6 @@ export default {
   GET_ORDER: '/api/orders',
   UPDATE_QTY: '/api/orders/update-qty',
   PLACE_ORDER: '/api/orders/place-order',
-  GET_CATEGORIES: 'api/products/get-categories'
+  GET_CATEGORIES: 'api/products/get-categories',
+  UPDATE_PRODUCT: '/api/products/update-details'
 };

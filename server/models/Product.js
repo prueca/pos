@@ -123,4 +123,23 @@ export default class Product extends BaseModel {
 
     return result ? result.map(row => row.category) : null;
   }
+
+  /**
+   * Update product details
+   *
+   * @param {Object} params
+   */
+  static async updateDetails(params) {
+    if (!params.pid || !params.name || !params.price || !params.stock || !params.category) {
+      throw errors.MISSING_PARAM;
+    }
+
+    await this.update({
+      ...params,
+      pid: undefined,
+      stock: undefined
+    }, {
+      where: { productId: params.pid }
+    });
+  }
 }
