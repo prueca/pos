@@ -11,7 +11,7 @@
             Price
           </div>
           <div class="float-left">
-            P{{ Number(details.price).toFixed(2) }}
+            P{{ details.price }}
           </div>
         </div>
         <div class="row clearfix">
@@ -110,11 +110,15 @@ export default {
       details: {
         ...details,
         pid: details.productId,
+        price: details.price.toFixed(2),
+        stock: String(details.stock),
         productId: undefined
       },
       updates: {
         ...details,
         pid: details.productId,
+        price: details.price.toFixed(2),
+        stock: String(details.stock),
         productId: undefined
       },
       categories

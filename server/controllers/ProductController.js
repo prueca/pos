@@ -80,13 +80,13 @@ export default class IndexController {
       await this.product.updateDetails(params);
       const currStock = await this.stock.getStock(params.pid);
 
-      if (currStock !== params.stock) {
+      if (currStock !== Number(params.stock)) {
         await this.stock.updateStock(params.pid, params.stock);
       }
 
       res.json({ success: true });
     } catch (err) {
-      res.err(err);
+      res.error(err);
     }
   }
 }
