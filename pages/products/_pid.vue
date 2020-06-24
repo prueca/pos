@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h1>
-      {{ name }}
+      {{ details.name }}
     </h1>
     <div class="clearfix">
       <div class="details">
@@ -11,7 +11,7 @@
             Price
           </div>
           <div class="float-left">
-            P{{ price.toFixed(2) }}
+            {{ details.price }}
           </div>
         </div>
         <div class="row clearfix">
@@ -19,7 +19,7 @@
             Stock
           </div>
           <div class="float-left">
-            {{ stock }}
+            {{ details.stock }}
           </div>
         </div>
         <div class="row clearfix">
@@ -27,7 +27,7 @@
             Category
           </div>
           <div class="float-left">
-            {{ category }}
+            {{ details.category }}
           </div>
         </div>
         <Btn class="remove-btn" text="Remove Item" />
@@ -38,25 +38,26 @@
         </h3>
         <form>
           <TextInput
-            v-model="name"
+            v-model="updates.name"
             icon="fas fa-fw fa-file-signature" />
           <div class="inline-inputs">
             <TextInput
-              v-model="price"
-              icon="fas fa-fw fa-barcode" />
+              v-model="updates.price"
+              icon="fas fa-fw fa-barcode"
+              @onblur="formatPrice" />
             <TextInput
-              v-model="stock"
+              v-model="updates.stock"
               icon="fas fa-fw fa-layer-group" />
           </div>
           <Dropdown
-            v-model="category"
-            :options="catList"
+            v-model="updates.category"
+            :options="categories"
             icon="fas fa-fw fa-tag"
             default-opt="Select category"
             @onchange="setCategory" />
           <TextInput
             v-if="showCatTxtInput"
-            v-model="category"
+            v-model="updates.category"
             class="new-cat"
             icon="fas fa-fw fa-tag"
             placeholder="Enter category" />
@@ -77,7 +78,7 @@
               Total Sales
             </div>
             <div class="amount">
-              P200.00
+              {{ totalSales }}
             </div>
           </div>
         </div>
@@ -87,34 +88,80 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import TextInput from '~/components/TextInput';
 import Dropdown from '~/components/Dropdown';
 import Btn from '~/components/Btn';
-// import urls from '~/configs/urls';
+import urls from '~/configs/urls';
 
 export default {
-  /* async asyncData({ params, $axios }) {
-    const product = await $axios.get(`${urls.GET_PRODUCTS}/${params.pid}`);
-    return product;
-  } */
   components: { TextInput, Dropdown, Btn },
-  data() {
+  async asyncData({ params, $axios }) {
+    const { products } = await $axios.$get(`${urls.GET_PRODUCTS}/${params.pid}`);
+    const cat = Object.keys(products).pop();
+    const details = products[cat].pop();
+    let { categories } = await $axios.$get(urls.GET_CATEGORIES);
+
+    if (categories) {
+      categories.push('New category');
+      categories = categories.map(cat => ({ text: cat, value: cat }));
+    }
+
     return {
-      name: 'Pandesal',
-      category: 'Bread',
-      price: 2,
-      stock: 100,
-      orders: 100,
-      totalSales: 200
+      details: {
+        ...details,
+        pid: details.productId,
+        productId: undefined
+      },
+      updates: {
+        ...details,
+        pid: details.productId,
+        productId: undefined
+      },
+      categories
     };
   },
-  computed: {
-    ...mapState(['productList']),
-    catList() {
-      const list = Object.keys(this.productList);
-      list.push('New category');
-      return list.map(cat => ({ text: cat, value: cat }));
+  data() {
+    return {
+      details: {
+        pid: this.$route.params.pid,
+        name: '---',
+        category: '---',
+        price: '---',
+        stock: '---'
+      },
+      updates: {
+        pid: this.$route.params.pid,
+        name: null,
+        category: null,
+        price: null,
+        stock: null
+      },
+      categories: null,
+      showCatTxtInput: false,
+      totalSales: '----.--'
+    };
+  },
+  methods: {
+    setCategory(cat) {
+      if (cat === 'New category') {
+        this.updates.category = null;
+        this.showCatTxtInput = true;
+        return;
+      }
+
+      this.updates.category = cat;
+      this.showCatTxtInput = false;
+    },
+    formatPrice(evt) {
+      let value = evt.target.value;
+
+      if (!isNaN(value) && !/^\d+\.\d{2}$/.test(value)) {
+        value = Number(value).toFixed(2);
+      } else if (isNaN(value)) {
+        value = '';
+      }
+
+      evt.target.value = value;
     }
   }
 };

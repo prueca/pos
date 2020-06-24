@@ -41,9 +41,27 @@ export default class IndexController {
    */
   async getProducts(req, res) {
     try {
-      const oid = req.cookies.oid ? Number(req.cookies.oid) : undefined;
-      const products = await this.product.getProducts(oid);
+      const oid = req.cookies.oid && /^\d+$/.test(req.cookies.oid)
+        ? Number(req.cookies.oid) : undefined;
+      const pid = req.params.pid && /^\d+$/.test(req.params.pid)
+        ? Number(req.params.pid) : undefined;
+      const products = await this.product.getProducts({ oid, pid });
       res.json({ products });
+    } catch (err) {
+      res.error(err);
+    }
+  }
+
+  /**
+   * Get categories
+   *
+   * @param {Object} req
+   * @param {Object} res
+   */
+  async getCategories(req, res) {
+    try {
+      const categories = await this.product.getCategories();
+      res.json({ categories });
     } catch (err) {
       res.error(err);
     }

@@ -1,3 +1,4 @@
+import Sequelize from 'sequelize';
 import errors from '../configs/errors';
 import { groupBy } from '../library/helper';
 import BaseModel from './BaseModel';
@@ -51,10 +52,14 @@ export default class Product extends BaseModel {
   /**
    * Get all products
    *
+   * @params {Object} params
+   *
    * @returns {Promise<Object>}
    */
-  static async getProducts(oid) {
-    if (oid && typeof oid !== 'number') {
+  static async getProducts(params) {
+    const { oid, pid } = params;
+
+    if ((oid && typeof oid !== 'number') || (pid && typeof pid !== 'number')) {
       throw errors.INVALID_PARAM;
     }
 
@@ -76,6 +81,7 @@ export default class Product extends BaseModel {
 
     let products = await this.findAll({
       include,
+      where: pid !== undefined ? { productId: pid } : undefined,
       attributes: [
         'productId',
         'name',
@@ -103,5 +109,18 @@ export default class Product extends BaseModel {
     });
 
     return groupBy(products, 'category');
+  }
+
+  /**
+   * Get categories
+   *
+   * @returns {Promise<Object>}
+   */
+  static async getCategories() {
+    const result = await this.findAll({
+      attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('category')), 'category']]
+    });
+
+    return result ? result.map(row => row.category) : null;
   }
 }
