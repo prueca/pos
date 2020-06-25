@@ -107,7 +107,7 @@ export default class IndexController {
       }
 
       await this.orderItem.updateQty(oid, pid, qty);
-      const order = await this.order.getOrder(oid);
+      const order = await this.order.getCartItems(oid);
 
       if (order && order.orderItems.length < 1) {
         res.clearCookie('oid');
