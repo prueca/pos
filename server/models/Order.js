@@ -243,4 +243,46 @@ export default class Order extends BaseModel {
 
     return { orders, totalRecords };
   }
+
+  /**
+   * Get sales
+   *
+   * @param {Number} pid
+   * @param {Object<Date>} dateFrom
+   * @param {Object<Date>} dateTo
+   *
+   * @returns {Number}
+   */
+  static async getSales(pid, dateFrom, dateTo) {
+    const where = { date: {} };
+    let sales = 0;
+
+    if (dateFrom) {
+      where.date[Op.gte] = dateFrom;
+    }
+
+    if (dateTo) {
+      where.date[Op.lt] = dateTo;
+    }
+
+    const result = await this.findAll({
+      where: dateFrom || dateTo ? where : undefined,
+      include: {
+        model: models.OrderItem,
+        as: 'orderItems',
+        where: { productId: pid },
+        attributes: ['quantity', 'price'],
+        required: true
+      }
+    });
+
+    if (result.length) {
+      sales = result.reduce((accumulator, order) => {
+        const orderItem = order.orderItems[0];
+        return accumulator + (orderItem.price * orderItem.quantity);
+      }, 0);
+    }
+
+    return Number(sales).toFixed(2);
+  }
 }

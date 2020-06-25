@@ -7,6 +7,7 @@ export default class IndexController {
   constructor() {
     this.product = models.Product;
     this.stock = models.Stock;
+    this.order = models.Order;
   }
 
   /**
@@ -74,6 +75,22 @@ export default class IndexController {
       }
 
       res.json({ success: true });
+    } catch (err) {
+      res.error(err);
+    }
+  }
+
+  /**
+   * Get sales
+   *
+   * @param {Object} req
+   * @param {Object} res
+   */
+  async getSales(req, res) {
+    try {
+      const { pid, dateFrom, dateTo } = req.body;
+      const sales = await this.order.getSales(pid, dateFrom, dateTo);
+      res.json({ sales });
     } catch (err) {
       res.error(err);
     }

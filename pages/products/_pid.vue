@@ -70,8 +70,18 @@
         </h3>
         <div>
           <div class="row clearfix">
-            <TextInput class="date-input float-left" type="date" icon="far fa-calendar" />
-            <TextInput class="date-input float-right" type="date" icon="far fa-calendar" />
+            <TextInput
+              v-model="dateFrom"
+              class="date-input float-left"
+              type="date"
+              icon="far fa-calendar"
+              @onchange="getSales" />
+            <TextInput
+              v-model="dateTo"
+              class="date-input float-right"
+              type="date"
+              icon="far fa-calendar"
+              @onchange="getSales" />
           </div>
           <div class="row computed-sales">
             <div class="label">
@@ -143,8 +153,13 @@ export default {
       categories: null,
       showCatTxtInput: false,
       updatingProduct: false,
-      totalSales: '----.--'
+      totalSales: '----.--',
+      dateFrom: '',
+      dateTo: ''
     };
+  },
+  created() {
+    this.getSales();
   },
   methods: {
     setCategory(cat) {
@@ -179,6 +194,19 @@ export default {
         .catch(err => alert(err.message))
         .finally(() => {
           this.updatingProduct = false;
+        });
+    },
+    getSales() {
+      this.totalSales = 'Please wait...';
+      this.$axios.$post(urls.GET_SALES, {
+        pid: this.details.pid,
+        dateFrom: this.dateFrom,
+        dateTo: this.dateTo
+      })
+        .then(res => (this.totalSales = `P${res.sales}`))
+        .catch((err) => {
+          this.totalSales = '----.--';
+          alert(err.message);
         });
     }
   }

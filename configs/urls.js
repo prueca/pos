@@ -7,5 +7,6 @@ export default {
   PLACE_ORDER: '/api/orders/place-order',
   GET_CATEGORIES: 'api/products/get-categories',
   UPDATE_PRODUCT: '/api/products/update-details',
-  GET_CART_ITEMS: '/api/orders/cart-items'
+  GET_CART_ITEMS: '/api/orders/cart-items',
+  GET_SALES: '/api/products/get-sales'
 };
