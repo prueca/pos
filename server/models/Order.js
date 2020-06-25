@@ -215,23 +215,20 @@ export default class Order extends BaseModel {
         attributes: ['itemId', 'quantity', 'price'],
         required: true
       },
-      group: ['orderId'],
       order: [['orderId', 'DESC']],
       limit: perPage,
-      offset: (page - 1) * perPage,
-      subQuery: false
+      offset: (page - 1) * perPage
     });
 
     const orders = rows.map((row) => {
       const { orderId, orderItems, date } = row.toJSON();
+      let totalQty = 0;
+      let totalCharge = 0;
 
-      const totalQty = orderItems.reduce((accumulator, item) => {
-        return accumulator + item.quantity;
-      }, 0);
-
-      const totalCharge = orderItems.reduce((accumulator, item) => {
-        return accumulator + (item.price * item.quantity);
-      }, 0);
+      orderItems.map((item) => {
+        totalQty += item.quantity;
+        totalCharge += item.quantity * item.price;
+      });
 
       return {
         orderId: String(orderId),
