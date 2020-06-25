@@ -27,5 +27,10 @@ export default {
     message: 'Data conflict',
     status: HttpStatus.CONFLICT,
     name: 'SequelizeUniqueConstraintError'
+  },
+  DATA_NOT_FOUND: {
+    code: '004',
+    message: 'Data not found',
+    status: HttpStatus.DATA_NOT_FOUND
   }
 };

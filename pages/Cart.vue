@@ -87,7 +87,7 @@ export default {
 
     this.loadingItems = true;
     this.message = 'Loading order items...';
-    this.$axios.get(`${urls.GET_ORDER}/${oid}`)
+    this.$axios.get(`${urls.GET_CART_ITEMS}/${oid}`)
       .then((res) => {
         this.loadingItems = false;
         this.message = null;

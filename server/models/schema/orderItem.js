@@ -25,6 +25,11 @@ export default {
     quantity: {
       type: Sequelize.INTEGER,
       allowNull: false
+    },
+    price: {
+      type: Sequelize.FLOAT,
+      allowNull: true,
+      defaultValue: null
     }
   }
 };

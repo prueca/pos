@@ -142,4 +142,24 @@ export default class Product extends BaseModel {
       where: { productId: params.pid }
     });
   }
+
+  /**
+   * Get item price
+   *
+   * @param {Number} pid
+   *
+   * @returns {Number}
+   */
+  static async getPrice(pid) {
+    const row = await this.findOne({
+      attributes: ['price'],
+      where: { productId: pid }
+    });
+
+    if (!row) {
+      throw errors.DATA_NOT_FOUND;
+    }
+
+    return row.price;
+  }
 }

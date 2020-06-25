@@ -5,7 +5,7 @@
         {{ orderItem.product.name }}
       </div>
       <div class="price">
-        P{{ Number(orderItem.product.price).toFixed(2) }}
+        P{{ Number(orderItem.price).toFixed(2) }}
       </div>
     </div>
     <div class="col">

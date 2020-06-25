@@ -64,6 +64,57 @@ export default class Order extends BaseModel {
       include: {
         model: models.OrderItem,
         as: 'orderItems',
+        attributes: ['itemId', 'quantity', 'price'],
+        include: {
+          model: models.Product,
+          as: 'product',
+          required: true,
+          include: {
+            as: 'stock',
+            model: models.Stock
+          }
+        }
+      }
+    });
+
+    if (order) {
+      order = order.toJSON();
+      order.itemCount = 0;
+      order.totalCharge = 0;
+      order.orderItems = order.orderItems.map((item) => {
+        const itemTotal = item.price * item.quantity;
+        const { stock } = item.product.stock.pop();
+        order.totalCharge += itemTotal;
+        order.itemCount += item.quantity;
+        item.product.stock = stock;
+        return { ...item, itemTotal };
+      });
+    }
+
+    return order;
+  }
+
+  /**
+   * Get cart items
+   *
+   * @param {Number} oid
+   *
+   * @returns {Promise<Order>}
+   */
+  static async getCartItems(oid) {
+    if (!oid) {
+      throw errors.MISSING_PARAM;
+    }
+
+    if (typeof oid !== 'number') {
+      throw errors.INVALID_PARAM;
+    }
+
+    let order = await this.findOne({
+      where: { orderId: oid },
+      include: {
+        model: models.OrderItem,
+        as: 'orderItems',
         attributes: ['itemId', 'quantity'],
         include: {
           model: models.Product,
@@ -161,13 +212,8 @@ export default class Order extends BaseModel {
       include: {
         model: models.OrderItem,
         as: 'orderItems',
-        attributes: ['itemId', 'quantity'],
-        required: true,
-        include: {
-          model: models.Product,
-          as: 'product',
-          required: true
-        }
+        attributes: ['itemId', 'quantity', 'price'],
+        required: true
       },
       group: ['orderId'],
       order: [['orderId', 'DESC']],
@@ -184,7 +230,7 @@ export default class Order extends BaseModel {
       }, 0);
 
       const totalCharge = orderItems.reduce((accumulator, item) => {
-        return accumulator + (item.product.price * item.quantity);
+        return accumulator + (item.price * item.quantity);
       }, 0);
 
       return {

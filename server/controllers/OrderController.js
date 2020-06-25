@@ -76,6 +76,21 @@ export default class IndexController {
   }
 
   /**
+   * Get cart items
+   *
+   * @param {Object} req
+   * @param {Object} res
+   */
+  async getCartItems(req, res) {
+    try {
+      const order = await this.order.getCartItems(req.params.oid);
+      res.json({ order });
+    } catch (err) {
+      res.error(err);
+    }
+  }
+
+  /**
    * Update order item quantity
    *
    * @param {Object} req
@@ -137,9 +152,10 @@ export default class IndexController {
       for (let i = 0; i < items.length; i++) {
         const { pid, qty } = items[i];
         const stock = await this.stock.getStock(pid);
+        const price = await this.product.getPrice(pid);
         await this.stock.updateStock(pid, (stock - qty));
+        await this.orderItem.setPrice(oid, pid, price);
       }
-
       await this.order.updateStatus(oid, 1);
       res.clearCookie('oid').end();
 

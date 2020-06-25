@@ -120,4 +120,20 @@ export default class OrderItem extends BaseModel {
       });
     }
   }
+
+  /**
+   * Set price upon place order
+   *
+   * @param {Number} oid
+   * @param {Number} pid
+   * @param {Number} price
+   */
+  static async setPrice(oid, pid, price) {
+    await this.update({ price }, {
+      where: {
+        orderId: oid,
+        productId: pid
+      }
+    });
+  }
 }
