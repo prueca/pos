@@ -7,6 +7,6 @@ export default {
   HOST: env('DB_HOST', 'us-cdbr-east-05.cleardb.net'),
   PORT: env('DB_PORT', 3306),
   DIALECT: env('DB_DIALECT', 'mysql'),
-  LOGGING: false, // console.log
-  FORCE_SYNC: false
+  FORCE_SYNC: false,
+  LOGGING: false // console.log
 };
