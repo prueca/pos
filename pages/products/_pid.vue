@@ -30,7 +30,11 @@
             {{ details.category }}
           </div>
         </div>
-        <Btn class="remove-btn" text="Remove Item" />
+        <Btn
+          class="remove-btn"
+          text="Remove Item"
+          :loading="removingItem"
+          @onclick="removeItem" />
       </div>
       <div class="update-form">
         <h3>
@@ -153,6 +157,7 @@ export default {
       categories: null,
       showCatTxtInput: false,
       updatingProduct: false,
+      removingItem: false,
       totalSales: '----.--',
       dateFrom: '',
       dateTo: ''
@@ -208,6 +213,13 @@ export default {
           this.totalSales = '----.--';
           alert(err.message);
         });
+    },
+    removeItem() {
+      this.removingItem = true;
+      this.$axios.$get(`${urls.REMOVE_ITEM}/${this.details.pid}`)
+        .then(res => this.$router.push('/'))
+        .catch(err => alert(err.message))
+        .finally(() => (this.removingItem = false));
     }
   }
 };

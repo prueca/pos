@@ -1,4 +1,5 @@
 import models from '../models';
+import errors from '../configs/errors';
 
 export default class IndexController {
   /**
@@ -91,6 +92,28 @@ export default class IndexController {
       const { pid, dateFrom, dateTo } = req.body;
       const sales = await this.order.getSales(pid, dateFrom, dateTo);
       res.json({ sales });
+    } catch (err) {
+      res.error(err);
+    }
+  }
+
+  /**
+   * Delete product
+   *
+   * @param {Object} req
+   * @param {Object} res
+   */
+  async removeItem(req, res) {
+    try {
+      if (!req.params.pid) {
+        throw errors.MISSING_PARAM;
+      }
+
+      await this.product.destroy({
+        where: { productId: req.params.pid }
+      });
+
+      res.json({ success: true });
     } catch (err) {
       res.error(err);
     }
