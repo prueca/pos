@@ -61,7 +61,7 @@
             class="new-cat"
             icon="fas fa-fw fa-tag"
             placeholder="Enter category" />
-          <Btn text="Update Item" type="submit" :loading="updatingProduct" />
+          <Btn id="update-btn" text="Update Item" type="submit" :loading="updatingProduct" />
         </form>
       </div>
       <div class="compute-sales">
