@@ -46,6 +46,7 @@ export default class Product extends BaseModel {
     });
     product = product.toJSON();
     product.stock = product.stock[0].stock;
+    product.inCart = 0;
     return product;
   }
 
