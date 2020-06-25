@@ -1,3 +1,5 @@
+import errors from '../configs/errors';
+
 /**
  * Returns env variable
  *
@@ -72,4 +74,29 @@ export const formatDate = (str) => {
   });
 
   return `${day} ${month} ${date} ${year} ${time}`;
+};
+
+/**
+ * Cast string to number
+ *
+ * @param {String|Number} param
+ *
+ * @returns {Number}
+ *
+ * @throws {INVALID_PARAM}
+ */
+export const toNumber = (param) => {
+  if (typeof param === 'string') {
+    if (!/^\d+(\.\d+)?$/.test(param)) {
+      throw errors.INVALID_PARAM;
+    }
+
+    return Number(param);
+  }
+
+  if (typeof param !== 'number') {
+    throw errors.INVALID_PARAM;
+  }
+
+  return param;
 };

@@ -10,16 +10,6 @@ export default class IndexController {
   }
 
   /**
-   * For API testing
-   *
-   * @param {Object} req
-   * @param {Object} res
-   */
-  ping(req, res) {
-    res.json({ status: 200 });
-  }
-
-  /**
    * Create new product
    *
    * @param {Object} req
@@ -42,11 +32,10 @@ export default class IndexController {
    */
   async getProducts(req, res) {
     try {
-      const oid = req.cookies.oid && /^\d+$/.test(req.cookies.oid)
-        ? Number(req.cookies.oid) : undefined;
-      const pid = req.params.pid && /^\d+$/.test(req.params.pid)
-        ? Number(req.params.pid) : undefined;
-      const products = await this.product.getProducts({ oid, pid });
+      const products = await this.product.getProducts({
+        oid: req.cookies.oid,
+        pid: req.params.pid
+      });
       res.json({ products });
     } catch (err) {
       res.error(err);
@@ -80,7 +69,7 @@ export default class IndexController {
       await this.product.updateDetails(params);
       const currStock = await this.stock.getStock(params.pid);
 
-      if (currStock !== Number(params.stock)) {
+      if (currStock !== params.stock) {
         await this.stock.updateStock(params.pid, params.stock);
       }
 

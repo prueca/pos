@@ -63,7 +63,7 @@ export default class IndexController {
       const { oid } = req.params;
 
       if (oid) {
-        const order = await this.order.getOrder(Number(oid));
+        const order = await this.order.getOrder(oid);
         return res.json({ order });
       }
 
