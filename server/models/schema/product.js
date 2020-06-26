@@ -15,8 +15,7 @@ export default {
     },
     name: {
       type: Sequelize.STRING,
-      allowNull: false,
-      unique: true
+      allowNull: false
     },
     price: {
       type: Sequelize.FLOAT,
@@ -26,6 +25,10 @@ export default {
     category: {
       type: Sequelize.STRING,
       allowNull: false
+    },
+    deleted: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: 0
     }
   }
 };

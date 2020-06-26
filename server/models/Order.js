@@ -1,6 +1,6 @@
 import Sequelize, { Op } from 'sequelize';
 import errors from '../configs/errors';
-import { formatDate } from '../library/helper';
+import { formatDate } from '../helper';
 import BaseModel from './BaseModel';
 import models from './index';
 

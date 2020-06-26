@@ -106,6 +106,7 @@ import TextInput from '~/components/TextInput';
 import Dropdown from '~/components/Dropdown';
 import Btn from '~/components/Btn';
 import urls from '~/configs/urls';
+import { errHandler } from '~/helper';
 
 export default {
   components: { TextInput, Dropdown, Btn },
@@ -196,7 +197,7 @@ export default {
             this.details = { ...this.updates };
           }
         })
-        .catch(err => alert(err.message))
+        .catch(errHandler)
         .finally(() => {
           this.updatingProduct = false;
         });
@@ -211,15 +212,17 @@ export default {
         .then(res => (this.totalSales = `P${res.sales}`))
         .catch((err) => {
           this.totalSales = '----.--';
-          alert(err.message);
+          errHandler(err);
         });
     },
     removeItem() {
-      this.removingItem = true;
-      this.$axios.$get(`${urls.REMOVE_ITEM}/${this.details.pid}`)
-        .then(res => this.$router.push('/'))
-        .catch(err => alert(err.message))
-        .finally(() => (this.removingItem = false));
+      if (confirm('Proceed deleting this item?')) {
+        this.removingItem = true;
+        this.$axios.$get(`${urls.REMOVE_ITEM}/${this.details.pid}`)
+          .then(res => this.$router.push('/'))
+          .catch(errHandler)
+          .finally(() => (this.removingItem = false));
+      }
     }
   }
 };

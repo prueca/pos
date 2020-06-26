@@ -52,6 +52,7 @@
 <script>
 import OrderItem from '~/components/OrderItem';
 import urls from '~/configs/urls';
+import { errHandler } from '~/helper';
 
 export default {
   validate({ params }) {
@@ -85,7 +86,7 @@ export default {
 
         this.setOrderData(res.data.order);
       })
-      .catch(err => alert(err.message));
+      .catch(errHandler);
   },
   methods: {
     setOrderData(params) {

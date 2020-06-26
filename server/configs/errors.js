@@ -4,7 +4,7 @@ export default {
   UNKNOWN_ERROR: {
     code: '000',
     message: 'Unknown error',
-    status: HttpStatus.CON
+    status: HttpStatus.INTERNAL_SERVER_ERROR
   },
   CONNECTION_REFUSED: {
     code: '001',
@@ -24,13 +24,23 @@ export default {
   },
   UNIQUE_CONSTRAINT: {
     code: '003',
-    message: 'Data conflict',
+    message: 'Product already exists',
     status: HttpStatus.CONFLICT,
     name: 'SequelizeUniqueConstraintError'
   },
   DATA_NOT_FOUND: {
     code: '004',
     message: 'Data not found',
-    status: HttpStatus.DATA_NOT_FOUND
+    status: HttpStatus.NOT_FOUND
+  },
+  ITEM_NOT_FOUND: {
+    code: '005',
+    message: 'Item not found',
+    status: HttpStatus.OK
+  },
+  INSUFFICIENT_STOCK: {
+    code: '006',
+    message: 'Insufficient stock',
+    status: HttpStatus.OK
   }
 };

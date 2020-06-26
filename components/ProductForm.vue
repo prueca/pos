@@ -72,6 +72,7 @@ import TextInput from '~/components/TextInput';
 import Dropdown from '~/components/Dropdown';
 import Btn from '~/components/Btn';
 import urls from '~/configs/urls';
+import { getProp } from '~/helper';
 
 export default {
   name: 'ProductForm',
@@ -157,7 +158,9 @@ export default {
           this.resetForm();
         })
         .catch((err) => {
-          this.errors.push(err.response.data.error.message || err.message);
+          this.submitted = false;
+          const msg = getProp(err, 'response.data.error.message', err.message);
+          this.errors.push(msg);
         });
     }
   }

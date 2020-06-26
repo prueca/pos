@@ -64,6 +64,7 @@
 import CartItem from '~/components/CartItem';
 import Btn from '~/components/Btn';
 import urls from '~/configs/urls';
+import { errHandler, getProp } from '~/helper';
 
 export default {
   components: { CartItem, Btn },
@@ -99,7 +100,7 @@ export default {
 
         this.setOrderData(res.data.order);
       })
-      .catch(err => alert(err.message));
+      .catch(errHandler);
   },
   methods: {
     setOrderData(params) {
@@ -119,7 +120,6 @@ export default {
 
       const items = this.orderItems.map((item) => {
         return {
-          name: item.product.name,
           pid: item.product.productId,
           qty: Number(item.quantity)
         };
@@ -128,15 +128,17 @@ export default {
       this.placingOrder = true;
       this.$axios.$post(urls.PLACE_ORDER, { oid, items })
         .then((res) => {
-          if (res.message) {
+          const error = getProp(res, 'error.message');
+
+          if (error) {
             this.placingOrder = false;
-            alert(res.message);
+            alert(error);
             return;
           }
 
           this.$router.push('/');
         })
-        .catch(err => alert(err.message));
+        .catch(errHandler);
     },
     emptyCart() {
       this.oid = null;

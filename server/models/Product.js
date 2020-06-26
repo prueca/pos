@@ -1,6 +1,6 @@
-import Sequelize from 'sequelize';
+import Sequelize, { Op } from 'sequelize';
 import errors from '../configs/errors';
-import { groupBy } from '../library/helper';
+import { groupBy } from '../helper';
 import BaseModel from './BaseModel';
 import models from './index';
 
@@ -33,6 +33,22 @@ export default class Product extends BaseModel {
   static async newProduct(params) {
     if (!params.name || !params.price || !params.stock || !params.category) {
       throw errors.MISSING_PARAM;
+    }
+
+    const nameExists = await this.count({
+      where: {
+        [Op.and]: [
+          Sequelize.where(
+            Sequelize.fn('LOWER', Sequelize.col('name')),
+            Sequelize.fn('LOWER', params.name)
+          ),
+          { deleted: 0 }
+        ]
+      }
+    });
+
+    if (nameExists) {
+      throw errors.UNIQUE_CONSTRAINT;
     }
 
     let product = await this.create({
@@ -80,9 +96,15 @@ export default class Product extends BaseModel {
       });
     }
 
+    const where = { deleted: 0 };
+
+    if (pid) {
+      where.productId = pid;
+    }
+
     let products = await this.findAll({
+      where,
       include,
-      where: pid !== undefined ? { productId: pid } : undefined,
       attributes: [
         'productId',
         'name',
@@ -162,5 +184,41 @@ export default class Product extends BaseModel {
     }
 
     return row.price;
+  }
+
+  /**
+   * Remove product item
+   *
+   * @param {Number} pid
+   */
+  static async removeItem(pid) {
+    if (!pid) {
+      throw errors.MISSING_PARAM;
+    }
+
+    await this.update({ deleted: 1 }, {
+      where: { productId: pid }
+    });
+  }
+
+  /**
+   * Check if product is deleted
+   *
+   * @param {Number} pid
+   */
+  static async isDeleted(pid) {
+    if (!pid) {
+      throw errors.MISSING_PARAM;
+    }
+
+    const isDeleted = await this.count({
+      limit: 1,
+      where: {
+        productId: pid,
+        deleted: 1
+      }
+    });
+
+    return isDeleted > 0;
   }
 }

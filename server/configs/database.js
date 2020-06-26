@@ -1,4 +1,4 @@
-import { env } from '../library/helper';
+import { env } from '../helper';
 
 export default {
   DATABASE: env('DB_NAME', 'heroku_6794ced17224118'),

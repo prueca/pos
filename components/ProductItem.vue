@@ -33,6 +33,7 @@ import { mapMutations } from 'vuex';
 import Btn from '~/components/Btn';
 import TextInput from '~/components/TextInput';
 import urls from '~/configs/urls';
+import { getProp } from '~/helper';
 
 export default {
   name: 'ProductItem',
@@ -83,13 +84,14 @@ export default {
             });
           }
 
-          if (res.error || res.message) {
-            alert(res.error || res.message);
+          if (getProp(res, 'error.message')) {
+            alert(getProp(res, 'error.message'));
           }
         })
         .catch((err) => {
           this.loading.addToCart = false;
-          alert(err.message);
+          const msg = getProp(err, 'response.data.error.message', err.message);
+          alert(msg);
         });
     }
   }

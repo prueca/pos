@@ -1,4 +1,4 @@
-import { toNumber } from '../library/helper';
+import { toNumber } from '../helper';
 
 export default (req, res, next) => {
   try {

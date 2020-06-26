@@ -19,6 +19,7 @@ module.exports = {
     'space-before-function-paren': 'off',
     'no-console': 'off',
     'padded-blocks': 'off',
+    'no-prototype-builtins': 'off',
     'semi': ['error', 'always']
   }
 }

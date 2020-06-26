@@ -1,5 +1,6 @@
 import models from '../models';
 import { cookieMaxAge } from '../configs/app';
+import errors from '../configs/errors';
 
 export default class IndexController {
   /**
@@ -32,12 +33,18 @@ export default class IndexController {
     try {
       let { oid } = req.body;
       const { pid, qty } = req.body;
+      const isDeleted = await this.product.isDeleted(pid);
+
+      if (isDeleted) {
+        throw errors.ITEM_NOT_FOUND;
+      }
+
       const stock = await this.stock.getStock(pid);
       const currQty = oid ? await this.orderItem.getCurrQty(oid, pid) : 0;
       const totalQty = qty + currQty;
 
       if (stock < totalQty) {
-        return res.json({ stock, message: 'Insufficient stock' });
+        throw errors.INSUFFICIENT_STOCK;
       }
 
       const newOrder = await this.order.newOrder(oid);
@@ -133,20 +140,20 @@ export default class IndexController {
   async placeOrder(req, res) {
     try {
       const { oid, items } = req.body;
-      const insufficient = [];
 
       for (let i = 0; i < items.length; i++) {
-        const { name, pid, qty } = items[i];
+        const { pid, qty } = items[i];
+        const isDeleted = await this.product.isDeleted(pid);
+
+        if (isDeleted) {
+          throw errors.ITEM_NOT_FOUND;
+        }
+
         const isSufficient = await this.stock.isSufficient(pid, qty);
 
         if (!isSufficient) {
-          insufficient.push(name);
+          throw errors.INSUFFICIENT_STOCK;
         }
-      }
-
-      if (insufficient.length > 0) {
-        res.json({ message: `Insufficient stock for item/s ${insufficient.join(', ')}` });
-        return;
       }
 
       for (let i = 0; i < items.length; i++) {

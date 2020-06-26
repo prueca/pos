@@ -1,5 +1,4 @@
 import models from '../models';
-import errors from '../configs/errors';
 
 export default class IndexController {
   /**
@@ -105,14 +104,7 @@ export default class IndexController {
    */
   async removeItem(req, res) {
     try {
-      if (!req.params.pid) {
-        throw errors.MISSING_PARAM;
-      }
-
-      await this.product.destroy({
-        where: { productId: req.params.pid }
-      });
-
+      await this.product.removeItem(req.params.pid);
       res.json({ success: true });
     } catch (err) {
       res.error(err);
