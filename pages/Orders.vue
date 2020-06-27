@@ -44,8 +44,14 @@
           v-model="serverParams.toDate"
           type="date"
           class="date">
-        <Btn class="filter-btn" text="Filter Orders" @onclick="loadItems" />
-        <Btn class="reload-btn" text="Reload Table" @onclick="reloadTable" />
+        <Btn
+          class="filter-btn"
+          icon="fas fa-fw fa-filter"
+          @onclick="loadItems" />
+        <Btn
+          class="reload-btn"
+          icon="fas fa-fw fa-redo"
+          @onclick="reloadTable" />
       </div>
     </vue-good-table>
   </div>

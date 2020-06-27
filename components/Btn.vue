@@ -8,16 +8,17 @@
     <span v-if="loading">
       <i class="fas fa-fw fa-spin fa-spinner" />
     </span>
-    <span v-else>
-      {{ text }}
-    </span>
+    <div v-else>
+      <span v-if="icon" :class="icon" />
+      <span v-if="text">{{ text }}</span>
+    </div>
   </button>
 </template>
 
 <script>
 export default {
   name: 'Btn',
-  props: ['type', 'text', 'form', 'loading', 'disabled']
+  props: ['type', 'text', 'form', 'loading', 'disabled', 'icon']
 };
 </script>
 
