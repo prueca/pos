@@ -11,7 +11,7 @@
             Price
           </div>
           <div class="float-left">
-            P{{ details.price }}
+            ₱{{ details.price }}
           </div>
         </div>
         <div class="row clearfix">

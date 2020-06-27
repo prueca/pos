@@ -108,7 +108,7 @@ export default {
         this.orderId = params.orderId;
         this.orderItems = params.orderItems;
         this.inCart = params.itemCount;
-        this.totalCharge = `P${Number(params.totalCharge).toFixed(2)}`;
+        this.totalCharge = `₱${Number(params.totalCharge).toFixed(2)}`;
       }
     },
     placeOrder() {

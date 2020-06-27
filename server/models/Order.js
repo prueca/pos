@@ -231,9 +231,9 @@ export default class Order extends BaseModel {
       });
 
       return {
-        orderId: String(orderId),
-        totalQty: String(totalQty),
-        totalCharge: `P${totalCharge.toFixed(2)}`,
+        orderId,
+        totalQty,
+        totalCharge,
         date: formatDate(date)
       };
     });

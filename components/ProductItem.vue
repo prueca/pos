@@ -10,7 +10,7 @@
         {{ inCart }} / {{ stock }}
       </div>
       <div class="float-left">
-        P{{ Number(price).toFixed(2) }}
+        ₱{{ Number(price).toFixed(2) }}
       </div>
     </div>
     <div class="row clearfix">

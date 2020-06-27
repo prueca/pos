@@ -11,7 +11,7 @@ export default [
   },
   {
     label: 'Total Charge',
-    field: 'totalCharge',
+    field: row => `₱${Number(row.totalCharge).toFixed(2)}`,
     sortable: false
   },
   {
