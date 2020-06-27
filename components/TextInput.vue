@@ -7,6 +7,7 @@
       :placeholder="placeholder"
       :style="{ 'text-align': textAlign || 'left' }"
       @blur="$emit('onblur', $event)"
+      @click="$emit('onclick', $event)"
       @change="$emit('onchange', $event)">
   </div>
 </template>

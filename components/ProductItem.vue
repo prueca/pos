@@ -18,6 +18,7 @@
         v-model="qty"
         text-align="center"
         class="qty float-right"
+        @onclick="selectAll"
         @onchange="qtyChange" />
       <Btn
         text="Add To Cart"
@@ -54,6 +55,9 @@ export default {
     qtyChange(evt) {
       this.qty = /^\d+$/.test(evt.target.value) && Number(evt.target.value) > 0
         ? evt.target.value : 1;
+    },
+    selectAll(evt) {
+      evt.target.select();
     },
     addToCart() {
       const oid = this.$cookies.get('oid');

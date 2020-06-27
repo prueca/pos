@@ -13,6 +13,7 @@
         v-model="cartItem.quantity"
         text-align="center"
         class="qty"
+        @onclick="selectAll"
         @onchange="qtyChange" />
       <span> / {{ cartItem.product.stock }}</span>
     </div>
@@ -65,6 +66,9 @@ export default {
       if (this.cartItem.quantity - 1 > 0) {
         this.cartItem.quantity -= 1;
       }
+    },
+    selectAll(evt) {
+      evt.target.select();
     },
     updateQty(qty, op = 'updating') {
       this[op] = true;
