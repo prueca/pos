@@ -18,6 +18,10 @@ export const conn = new Sequelize(
   }
 );
 
+conn.authenticate()
+  .then(() => console.log('Database connection established'))
+  .catch(e => console.log(e.message))
+
 const models = {
   Product: Product.init(conn, schema.product),
   Stock: Stock.init(conn, schema.stock),
