@@ -22,7 +22,7 @@
     "http-status-codes": "^1.4.0",
     "mysql2": "^2.1.0",
     "nuxt": "^2.0.0",
-    "sequelize": "^5.21.9",
+    "sequelize": "^6.28.2",
     "vue-good-table": "^2.19.3"
   },
   "devDependencies": {
